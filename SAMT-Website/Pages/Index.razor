@@ -1,0 +1,79 @@
+﻿@page "/"
+@page "/index"
+
+<main class="page landing-page">
+    <section class="clean-block clean-hero" style="color: rgba(255,252,180,0);background: url(assets/img/tech/Download.jpg?h=15389cbbb15982b2377058440eb0a032) center / cover repeat;">
+        <div class="text" style="background: rgba(0,0,0,0.79);border-radius: 15px;border-style: none;padding: 12px;">
+            <!-- Start: 1 Row 2 Columns -->
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6"><img class="img-fluid" src="assets/img/WinterSAMT.png?h=55bf114ce420b29d02a1a5a9df17cb68"></div>
+                    <div class="col-md-6">
+                        <h2 style="font-weight: bold;">Winter SAMT 2021</h2>
+                        <h2>@countdown Tage</h2>
+                        <p style="font-size: 20px;">am&nbsp;<strong><br>11.12.2021<br></strong> in der <a href="https://goo.gl/maps/r3HzQ58F1HzHJ43u8" target="_blank" style="color: #ff6f71;">BlueBox-Siegen<br></a></p>
+                    </div>
+                </div>
+            </div><!-- End: 1 Row 2 Columns -->
+        </div>
+    </section>
+    <section class="clean-block features">
+        <div class="container">
+            <div class="block-heading">
+                <h2 style="color: rgb(255,111,113);">Was kannst du erwarten?</h2>
+                <p style="max-width: 460px;">Wir wollen ein wunderschönes Erlebnis für alle zu schaffen. Wir wollen einen Ort schaffen um das Convention Feeling nach Siegen zu bringen und neue Freundschaften aus der Umgebung zu knüpfen.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-5 feature-box">
+                    <i class="fas fa-paint-brush icon" style="color: #ff6f71;"></i>
+                    <h4>Kleine Artist Alley</h4>
+                    <p>Kleine aber feine "Artist Alley" mit 2 bis 3 wunderschönen Künstlern :)</p>
+                </div>
+                <div class="col-md-5 feature-box">
+                    <i class="fas fa-heartbeat icon" style="color: #ff6f71;"></i>
+                    <h4>Cosplay</h4>
+                    <p>Lerne viele lokale Cosplayer aus der Umgebung kennen!</p>
+                </div>
+                <div class="col-md-5 feature-box">
+                    <i class="fas fa-sign-language icon" style="color: #ff6f71;"></i>
+                    <h4>Bühnenprogramm</h4>
+                    <p>Unterhaltung mit spannenden Vorträgen und lustigen Quiz</p>
+                </div>
+                <div class="col-md-5 feature-box">
+                    <i class="fas fa-cut icon" style="color: #ff6f71;"></i>
+                    <h4>Workshops</h4>
+                    <p>Erlerne wie du einen Anime synchronisierst oder erschaffe neue Props um dein Cosplay noch besser zu machen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="clean-block clean-info dark" style="background: var(--bs-gray-dark);">
+        <div class="container">
+            <div class="block-heading">
+                <h2 style="color: #ff6f71;">Eintritt</h2>
+                <p class="text-white">Genaue Zeiten und Preise werden noch bekanntgegeben.<br>Voraussichtlich aber weniger als ein Euro ^^</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code
+{ string countdown;
+
+    protected override Task OnInitializedAsync()
+    {
+        Countdown();
+        return base.OnInitializedAsync();
+    }
+
+    async Task Countdown()
+    {
+        DateTime samt = new DateTime(2021, 12, 11);
+        while (true)
+        {
+            await Task.Delay(10);
+            countdown = samt.Subtract(DateTime.Now).ToString("dd':'hh':'mm':'ss");
+            StateHasChanged();
+        }
+    }
+}
