@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudio,web,csharp,dotnetcore,aspnetcore
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,web,csharp,dotnetcore,aspnetcore
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudio,csharp,aspnetcore,dotnetcore
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,csharp,aspnetcore,dotnetcore
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -524,21 +524,6 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
-### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
-*.xhtml
-
 ### VisualStudio ###
 
 # User-specific files
@@ -715,4 +700,4 @@ obj/
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio,web,csharp,dotnetcore,aspnetcore
+# End of https://www.toptal.com/developers/gitignore/api/visualstudio,csharp,aspnetcore,dotnetcore
