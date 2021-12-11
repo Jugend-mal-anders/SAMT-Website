@@ -30,6 +30,8 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_HOST }}
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p 4456 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
         
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
