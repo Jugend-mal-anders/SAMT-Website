@@ -30,8 +30,6 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_HOST }}
-      - name: Adding Known Hosts
-        run: ssh-keyscan -p 4456 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
         
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -46,6 +44,6 @@ jobs:
           dotnet publish -c Release
         
       - name: Deploy with rsync
-        run: rsync -avz -e 'ssh -p 4556' SAMT-Website/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-con/
+        run: rsync -avz -e 'ssh -p 4556 -o StrictHostKeyChecking=no' SAMT-Website/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-con/
       - name: Restart SAMT Website
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'service samt-con restart'
