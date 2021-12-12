@@ -75,7 +75,7 @@
     async Task Countdown()
     {
         var samt = new DateTime(2021, 12, 11, 11, 30, 0);
-        while (!countdown.Equals("00:00:00:00"))
+        while (samt < DateTime.Now)
         {
             await Task.Delay(10);
             countdown = samt.Subtract(DateTime.Now).ToString("dd':'hh':'mm':'ss");
