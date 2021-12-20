@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Website", "SAMT-Website\SAMT-Website.csproj", "{492EA474-9078-4D7D-AAC7-8EDBB7C54FDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Admin-Panel", "SAMT-Admin-Panel\SAMT-Admin-Panel.csproj", "{59DBA87A-772C-4460-8E7F-1613AC385F3D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70A68420-7921-4570-BF6F-84081A3B903E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -22,10 +20,6 @@ Global
 		{492EA474-9078-4D7D-AAC7-8EDBB7C54FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{492EA474-9078-4D7D-AAC7-8EDBB7C54FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{492EA474-9078-4D7D-AAC7-8EDBB7C54FDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59DBA87A-772C-4460-8E7F-1613AC385F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59DBA87A-772C-4460-8E7F-1613AC385F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59DBA87A-772C-4460-8E7F-1613AC385F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59DBA87A-772C-4460-8E7F-1613AC385F3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
