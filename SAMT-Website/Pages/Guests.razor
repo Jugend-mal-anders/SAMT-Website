@@ -10,7 +10,7 @@
 }
 
 <main class="page">
-    @foreach (var samt in context.Events.Include(x => x.EventsGuests).ThenInclude(x => x.FkGuests))
+    @foreach (var samt in context.Events.Include(x => x.EventsGuests).ThenInclude(x => x.FkGuests).OrderByDescending(x => x.Date))
     {
         <!-- Start: Team Boxed -->
         <section class="team-boxed">
@@ -21,30 +21,37 @@
                     <p class="text-center">Wir freuen uns sehr euch unsere diesjährigen Gäste vorstellen zu dürfen!<br></p>
                 </div><!-- End: Intro -->
                 <!-- Start: People -->
-                <div class="row people">
-                    @foreach (var guest in samt.EventsGuests.Select(x => x.FkGuests))
+            <div class="row people">
+                    @if (samt.EventsGuests.Count != 0)
                     {
-                        <div class="col-md-6 col-lg-4 item">
-                            <div class="box" style="background: var(--bs-gray); border-radius: 25px;">
-                                <img class="rounded-circle" src="@guest.ImageLink">
-                                <h3 class="name">@guest.Name</h3>
-                                <p class="title">@guest.Type</p>
-                                <div class="social" style="color: #ff6f71; font-size: 25px;">
-                                    @if (guest.Instagram != null)
-                                    {
-                                        <a href="@guest.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                                    }
-                                    @if (guest.Twitter != null)
-                                    {
-                                        <a href="@guest.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
-                                    }
-                                    @if (guest.Linktree != null)
-                                    {
-                                        <a href="@guest.Linktree" target="_blank"><i class="fab fa-tree"></i></a>
-                                    }
+                        @foreach (var guest in samt.EventsGuests.Select(x => x.FkGuests))
+                        {
+                            <div class="col-md-6 col-lg-4 item">
+                                <div class="box" style="background: var(--bs-gray); border-radius: 25px;">
+                                    <img class="rounded-circle" src="@guest.ImageLink">
+                                    <h3 class="name">@guest.Name</h3>
+                                    <p class="title">@guest.Type</p>
+                                    <div class="social" style="color: #ff6f71; font-size: 25px;">
+                                        @if (guest.Instagram != null)
+                                        {
+                                            <a href="@guest.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        }
+                                        @if (guest.Twitter != null)
+                                        {
+                                            <a href="@guest.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        }
+                                        @if (guest.Linktree != null)
+                                        {
+                                            <a href="@guest.Linktree" target="_blank"><i class="fab fa-tree"></i></a>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                    }
+                    else
+                    {
+                        <span>Coming soon...</span>
                     }
                 </div><!-- End: People -->
         </div>
