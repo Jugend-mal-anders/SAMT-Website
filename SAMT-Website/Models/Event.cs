@@ -13,6 +13,7 @@ namespace SAMT_Website.models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
+        public string ImageLink { get; set; }
         public int FkLocationId { get; set; }
 
         public virtual Location FkLocation { get; set; }

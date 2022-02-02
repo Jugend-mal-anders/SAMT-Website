@@ -49,6 +49,10 @@ namespace SAMT_Website.models
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Location_ID");
 
+                entity.Property(e => e.ImageLink)
+                    .IsRequired()
+                    .HasColumnType("text");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("text");
@@ -120,6 +124,10 @@ namespace SAMT_Website.models
                     .HasColumnName("ID");
 
                 entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                entity.Property(e => e.MapsLink)
                     .IsRequired()
                     .HasColumnType("text");
 
