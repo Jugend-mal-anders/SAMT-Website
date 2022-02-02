@@ -46,6 +46,13 @@
     <meta name="description" content="Das Siegener Anime und Manga Treff (kurz SAMT) ist die erste Anime und Manga Convention in Siegen.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
+
+    <base href="~/" />
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="SAMT-Website.styles.css" rel="stylesheet" />
+
     <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png?h=8f0d7f118b827e465480d098f7d39318">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png?h=8f0d7f118b827e465480d098f7d39318">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png?h=8f0d7f118b827e465480d098f7d39318">
@@ -77,18 +84,16 @@
     <!-- End Google Tag Manager -->
     <component type="typeof(App)" render-mode="ServerPrerendered" />
 
-    @*<div id="blazor-error-ui">
-            <environment include="Staging,Production">
-                An error has occurred. This application may no longer respond until reloaded.
-            </environment>
-            <environment include="Development">
-                An unhandled exception has occurred. See browser dev tools for details.
-            </environment>
-            <a href="" class="reload">Reload</a>
-            <a class="dismiss">🗙</a>
-        </div>*@
-
-    <script src="_framework/blazor.server.js"></script>
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -100,5 +105,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
     <script src="assets/js/Lightbox-Gallery.js?h=64eb55ccbc6ead5e91ebe308caacba6e"></script>
     <script src="assets/js/Simple-Slider.js?h=84b1d7cbf88bb21b37fb412ca8f94640"></script>
+
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SAMT_Website.models
 {
@@ -39,6 +42,8 @@ namespace SAMT_Website.models
                 entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.FkLocationId)
                     .HasColumnType("int(11)")
