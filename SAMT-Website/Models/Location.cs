@@ -12,8 +12,10 @@ namespace SAMT_Website.models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Street { get; set; }
-        public int City { get; set; }
+        public string Street { get; set; }
+        public int Number { get; set; }
+        public string City { get; set; }
+        public int Plz { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
     }

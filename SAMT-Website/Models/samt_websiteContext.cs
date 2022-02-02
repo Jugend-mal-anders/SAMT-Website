@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace SAMT_Website.models
 {
@@ -21,14 +17,13 @@ namespace SAMT_Website.models
         public virtual DbSet<EventsGuest> EventsGuests { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<Text> Texts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.5-mariadb"));
+                optionsBuilder.UseMySql("server=landofrails.net;port=3306;user=samt;password=hTLbtLaoOCP1thKy;database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.5-mariadb"));
             }
         }
 
@@ -39,55 +34,55 @@ namespace SAMT_Website.models
 
             modelBuilder.Entity<Event>(entity =>
             {
-                entity.HasIndex(e => e.LocationId, "LocationID");
+                entity.HasIndex(e => e.FkLocationId, "FK_Location_ID");
 
                 entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
 
-                entity.Property(e => e.Date).HasColumnType("datetime");
-
-                entity.Property(e => e.LocationId)
+                entity.Property(e => e.FkLocationId)
                     .HasColumnType("int(11)")
-                    .HasColumnName("LocationID");
+                    .HasColumnName("FK_Location_ID");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("text");
 
-                entity.HasOne(d => d.Location)
+                entity.HasOne(d => d.FkLocation)
                     .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.LocationId)
+                    .HasForeignKey(d => d.FkLocationId)
                     .HasConstraintName("Events_ibfk_1");
             });
 
             modelBuilder.Entity<EventsGuest>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Events_Guests");
 
-                entity.HasIndex(e => e.EventId, "EventID");
+                entity.HasIndex(e => new { e.FkEventId, e.FkGuestsId }, "FK_Event_ID");
 
-                entity.HasIndex(e => e.GuestId, "GuestID");
+                entity.HasIndex(e => e.FkGuestsId, "FK_Guests_ID");
 
-                entity.Property(e => e.EventId)
+                entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
-                    .HasColumnName("EventID");
+                    .HasColumnName("ID");
 
-                entity.Property(e => e.GuestId)
+                entity.Property(e => e.FkEventId)
                     .HasColumnType("int(11)")
-                    .HasColumnName("GuestID");
+                    .HasColumnName("FK_Event_ID");
 
-                entity.HasOne(d => d.Event)
-                    .WithMany()
-                    .HasForeignKey(d => d.EventId)
-                    .HasConstraintName("Events_Guests_ibfk_2");
+                entity.Property(e => e.FkGuestsId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Guests_ID");
 
-                entity.HasOne(d => d.Guest)
-                    .WithMany()
-                    .HasForeignKey(d => d.GuestId)
+                entity.HasOne(d => d.FkEvent)
+                    .WithMany(p => p.EventsGuests)
+                    .HasForeignKey(d => d.FkEventId)
                     .HasConstraintName("Events_Guests_ibfk_1");
+
+                entity.HasOne(d => d.FkGuests)
+                    .WithMany(p => p.EventsGuests)
+                    .HasForeignKey(d => d.FkGuestsId)
+                    .HasConstraintName("Events_Guests_ibfk_2");
             });
 
             modelBuilder.Entity<Guest>(entity =>
@@ -96,17 +91,19 @@ namespace SAMT_Website.models
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
 
-                entity.Property(e => e.EMail)
-                    .HasColumnType("text")
-                    .HasColumnName("E-Mail");
-
-                entity.Property(e => e.Facebook).HasColumnType("text");
+                entity.Property(e => e.ImageLink).HasColumnType("text");
 
                 entity.Property(e => e.Instagram).HasColumnType("text");
 
                 entity.Property(e => e.Linktree).HasColumnType("text");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Twitter).HasColumnType("text");
+
+                entity.Property(e => e.Type)
                     .IsRequired()
                     .HasColumnType("text");
             });
@@ -117,24 +114,21 @@ namespace SAMT_Website.models
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
 
-                entity.Property(e => e.City).HasColumnType("int(11)");
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasColumnType("text");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("text");
 
-                entity.Property(e => e.Street).HasColumnType("int(11)");
-            });
+                entity.Property(e => e.Number).HasColumnType("int(11)");
 
-            modelBuilder.Entity<Text>(entity =>
-            {
-                entity.ToTable("Text");
+                entity.Property(e => e.Plz)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("PLZ");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(64)
-                    .HasColumnName("ID");
-
-                entity.Property(e => e.Contents)
+                entity.Property(e => e.Street)
                     .IsRequired()
                     .HasColumnType("text");
             });

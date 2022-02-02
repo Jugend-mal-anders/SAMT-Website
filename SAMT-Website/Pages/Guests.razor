@@ -1,4 +1,6 @@
 ﻿@page "/guests"
+@using SAMT_Website.models
+@using Microsoft.EntityFrameworkCore
 
 @inject IDbContextFactory<samt_websiteContext> _DbFactory
 
@@ -7,43 +9,45 @@
 }
 
 <main class="page">
-    <!-- Start: Team Boxed -->
-    <section class="team-boxed">
-        <div class="container">
-            <!-- Start: Intro -->
+    @foreach (var ids in context.EventsGuests)
+    {
+        var guest = context.Guests.First(x => x.Id == ids.FkGuestsId);
+        <!-- Start: Team Boxed -->
+        <section class="team-boxed">
+            <div class="container">
+                <!-- Start: Intro -->
             <div class="intro">
-                <h2 class="text-uppercase text-center" style="font-weight: bold;color: #ff6f71;">Alle Gäste des Winter SAMT 2021</h2>
-                <p class="text-center">Wir freuen uns sehr euch unsere diesjährigen Gäste vorstellen zu dürfen!<br></p>
-            </div><!-- End: Intro -->
-            <!-- Start: People -->
+                    <h2 class="text-uppercase text-center" style="font-weight: bold; color: #ff6f71;">Alle Gäste des @context.Events.First(x => x.Id == ids.FkEventId).Name</h2>
+                    <p class="text-center">Wir freuen uns sehr euch unsere diesjährigen Gäste vorstellen zu dürfen!<br></p>
+                </div><!-- End: Intro -->
+                <!-- Start: People -->
             <div class="row people">
-                <div class="col-md-6 col-lg-4 item">
-                    <div class="box" style="background: var(--bs-gray);border-radius: 25px;">
-                        <img class="rounded-circle" src="assets/img/mangaMafia.jpg?h=25abf05b89c75b5b04e6cf30f938eee9">
-                        <h3 class="name">Manga Mafia</h3>
-                        <p class="title">Anime und Manga Shop</p>
-                        <div class="social" style="color: #ff6f71;font-size: 25px;"><a href="https://manga-mafia.de/" target="_blank"><i class="fas fa-globe"></i></a><a href="https://www.facebook.com/MangaMafia/" target="_blank"><i class="fab fa-facebook"></i></a><a href="https://twitter.com/mangamafia_de/" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://www.instagram.com/mangamafia/" target="_blank"><i class="fab fa-instagram"></i></a></div>
+                    <div class="col-md-6 col-lg-4 item">
+                        <div class="box" style="background: var(--bs-gray); border-radius: 25px;">
+                            <img class="rounded-circle" src="@guest.ImageLink">
+                            <h3 class="name">@guest.Name</h3>
+                            <p class="title">@guest.Type</p>
+                            <div class="social" style="color: #ff6f71; font-size: 25px;">
+                                @if (guest.Instagram != null)
+                                {
+                                    <a href="@guest.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                }
+                                @if (guest.Twitter != null)
+                                {
+                                    <a href="@guest.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                                }
+                                @if (guest.Linktree != null)
+                                {
+                                    <a href="@guest.Linktree" target="_blank"><i class="fab fa-tree"></i></a>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4 item">
-                    <div class="box" style="border-radius: 25px;background: var(--bs-gray);">
-                        <img class="rounded-circle" src="assets/img/kittensArea.jpg?h=d052bfc995b7386d24d0acd685040fcc" style="height: 400;">
-                        <h3 class="name">KittensAreaShop</h3>
-                        <p class="title">Artist</p>
-                        <div class="social" style="color: #ff6f71;font-size: 25px;"><a href="https://www.etsy.com/de/shop/KittensArea" target="_blank"><i class="fab fa-etsy"></i></a><a target="_blank" href="https://www.pinterest.de/KittensAreaShop/"><i class="fab fa-pinterest"></i></a><a href="https://www.facebook.com/KittensAreaShop/" target="_blank"><i class="fab fa-facebook"></i></a><a href="https://twitter.com/KittensAreaShop" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://www.instagram.com/kittensareashop/" target="_blank"><i class="fab fa-instagram"></i></a></div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 item">
-                    <div class="box" style="background: var(--bs-gray);border-radius: 25px;">
-                        <img class="rounded-circle img-fluid" src="assets/img/koksiiArt.jpg?h=e7da6c2cf7fdb8ced2942230db85ae1d">
-                        <h3 class="name"><strong>KoKsii</strong><br></h3>
-                        <p class="title">Artist</p>
-                        <div class="social" style="color: #ff6f71;font-size: 25px;"><a target="_blank" href="https://www.youtube.com/channel/UCezDyvRVBLo1vOZjgfZnw6Q"><i class="fab fa-youtube"></i></a><a href="https://www.facebook.com/koksiikoksii" target="_blank"><i class="fab fa-facebook"></i></a><a href="https://twitter.com/ko_ksii" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://www.instagram.com/koksii_art/" target="_blank"><i class="fab fa-instagram"></i></a></div>
-                    </div>
-                </div>
-            </div><!-- End: People -->
+                </div><!-- End: People -->
         </div>
-    </section><!-- End: Team Boxed -->
+        </section>
+        <!-- End: Team Boxed -->
+    }
 </main>
 
 @code {

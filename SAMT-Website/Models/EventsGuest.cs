@@ -5,10 +5,11 @@ namespace SAMT_Website.models
 {
     public partial class EventsGuest
     {
-        public int EventId { get; set; }
-        public int GuestId { get; set; }
+        public int Id { get; set; }
+        public int FkEventId { get; set; }
+        public int FkGuestsId { get; set; }
 
-        public virtual Event Event { get; set; }
-        public virtual Guest Guest { get; set; }
+        public virtual Event FkEvent { get; set; }
+        public virtual Guest FkGuests { get; set; }
     }
 }
