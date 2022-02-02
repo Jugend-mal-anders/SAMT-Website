@@ -6,43 +6,46 @@
 
 @{
     var context = _DbFactory.CreateDbContext();
+    var context2 = _DbFactory.CreateDbContext();
 }
 
 <main class="page">
-    @foreach (var ids in context.EventsGuests)
+    @foreach (var samt in context.Events.Include(x => x.EventsGuests).ThenInclude(x => x.FkGuests))
     {
-        var guest = context.Guests.First(x => x.Id == ids.FkGuestsId);
         <!-- Start: Team Boxed -->
         <section class="team-boxed">
             <div class="container">
                 <!-- Start: Intro -->
             <div class="intro">
-                    <h2 class="text-uppercase text-center" style="font-weight: bold; color: #ff6f71;">Alle Gäste des @context.Events.First(x => x.Id == ids.FkEventId).Name</h2>
+                    <h2 class="text-uppercase text-center" style="font-weight: bold; color: #ff6f71;">Alle Gäste des @samt.Name</h2>
                     <p class="text-center">Wir freuen uns sehr euch unsere diesjährigen Gäste vorstellen zu dürfen!<br></p>
                 </div><!-- End: Intro -->
                 <!-- Start: People -->
-            <div class="row people">
-                    <div class="col-md-6 col-lg-4 item">
-                        <div class="box" style="background: var(--bs-gray); border-radius: 25px;">
-                            <img class="rounded-circle" src="@guest.ImageLink">
-                            <h3 class="name">@guest.Name</h3>
-                            <p class="title">@guest.Type</p>
-                            <div class="social" style="color: #ff6f71; font-size: 25px;">
-                                @if (guest.Instagram != null)
-                                {
-                                    <a href="@guest.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                                }
-                                @if (guest.Twitter != null)
-                                {
-                                    <a href="@guest.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
-                                }
-                                @if (guest.Linktree != null)
-                                {
-                                    <a href="@guest.Linktree" target="_blank"><i class="fab fa-tree"></i></a>
-                                }
+                <div class="row people">
+                    @foreach (var guest in samt.EventsGuests.Select(x => x.FkGuests))
+                    {
+                        <div class="col-md-6 col-lg-4 item">
+                            <div class="box" style="background: var(--bs-gray); border-radius: 25px;">
+                                <img class="rounded-circle" src="@guest.ImageLink">
+                                <h3 class="name">@guest.Name</h3>
+                                <p class="title">@guest.Type</p>
+                                <div class="social" style="color: #ff6f71; font-size: 25px;">
+                                    @if (guest.Instagram != null)
+                                    {
+                                        <a href="@guest.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    }
+                                    @if (guest.Twitter != null)
+                                    {
+                                        <a href="@guest.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    }
+                                    @if (guest.Linktree != null)
+                                    {
+                                        <a href="@guest.Linktree" target="_blank"><i class="fab fa-tree"></i></a>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div><!-- End: People -->
         </div>
         </section>
