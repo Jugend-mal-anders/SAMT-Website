@@ -16,6 +16,7 @@ namespace SAMT_Website.models
         public string ImageLink { get; set; }
         public string Instagram { get; set; }
         public string Twitter { get; set; }
+        public string Etsy { get; set; }
         public string Linktree { get; set; }
 
         public virtual ICollection<EventsGuest> EventsGuests { get; set; }

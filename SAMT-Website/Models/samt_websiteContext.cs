@@ -100,6 +100,8 @@ namespace SAMT_Website.models
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
 
+                entity.Property(e => e.Etsy).HasColumnType("text");
+
                 entity.Property(e => e.ImageLink).HasColumnType("text");
 
                 entity.Property(e => e.Instagram).HasColumnType("text");
