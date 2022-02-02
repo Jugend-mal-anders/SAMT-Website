@@ -1,5 +1,11 @@
 ﻿@page "/guests"
 
+@inject IDbContextFactory<samt_websiteContext> _DbFactory
+
+@{
+    var context = _DbFactory.CreateDbContext();
+}
+
 <main class="page">
     <!-- Start: Team Boxed -->
     <section class="team-boxed">
