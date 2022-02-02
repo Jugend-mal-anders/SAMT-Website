@@ -1,5 +1,14 @@
 ﻿@page "/"
 @page "/index"
+@using Microsoft.EntityFrameworkCore
+@using SAMT_Website.models
+
+@inject IDbContextFactory<samt_websiteContext> _DbFactory
+
+@{
+    var context = _DbFactory.CreateDbContext();
+    var samt = context.Events.OrderByDescending(x => x.Date).First();
+}
 
 <main class="page landing-page">
     <section class="clean-block clean-hero" style="color: rgba(255,252,180,0);background: url(assets/img/tech/Download.jpg?h=15389cbbb15982b2377058440eb0a032) center / cover repeat;">
@@ -9,9 +18,9 @@
                 <div class="row align-items-center">
                     <div class="col-md-6"><img class="img-fluid" src="assets/img/WinterSAMT.png?h=55bf114ce420b29d02a1a5a9df17cb68"></div>
                     <div class="col-md-6">
-                        <h2 style="font-weight: bold;">Frühlings SAMT 2022</h2>
+                        <h2 style="font-weight: bold;">@samt.Name</h2>
                         <h2>@countdown</h2>
-                        <p style="font-size: 20px;">am&nbsp;<strong><br>23.04.2022 ab 11:30 Uhr<br></strong> in der <a href="https://goo.gl/maps/r3HzQ58F1HzHJ43u8" target="_blank" style="color: #ff6f71;">BlueBox-Siegen<br></a></p>
+                        <p style="font-size: 20px;">am&nbsp;<strong><br>@samt.Date.ToShortDateString() ab 11:30 Uhr<br></strong> in der <a href="https://goo.gl/maps/r3HzQ58F1HzHJ43u8" target="_blank" style="color: #ff6f71;">BlueBox-Siegen<br></a></p>
                     </div>
                 </div>
             </div><!-- End: 1 Row 2 Columns -->
