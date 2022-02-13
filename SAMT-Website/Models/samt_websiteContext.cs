@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace SAMT_Website.models
+namespace SAMT_Website.Models
 {
     public partial class samt_websiteContext : DbContext
     {
@@ -19,8 +19,11 @@ namespace SAMT_Website.models
 
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventsGuest> EventsGuests { get; set; }
+        public virtual DbSet<EventsProduct> EventsProducts { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Sale> Sales { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -95,6 +98,37 @@ namespace SAMT_Website.models
                     .HasConstraintName("Events_Guests_ibfk_2");
             });
 
+            modelBuilder.Entity<EventsProduct>(entity =>
+            {
+                entity.ToTable("Events_Products");
+
+                entity.HasIndex(e => new { e.FkEventId, e.FkProductId }, "FK_Event_ID");
+
+                entity.HasIndex(e => e.FkProductId, "FK_Product_ID");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.FkEventId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Event_ID");
+
+                entity.Property(e => e.FkProductId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Product_ID");
+
+                entity.HasOne(d => d.FkEvent)
+                    .WithMany(p => p.EventsProducts)
+                    .HasForeignKey(d => d.FkEventId)
+                    .HasConstraintName("Events_Products_ibfk_1");
+
+                entity.HasOne(d => d.FkProduct)
+                    .WithMany(p => p.EventsProducts)
+                    .HasForeignKey(d => d.FkProductId)
+                    .HasConstraintName("Events_Products_ibfk_2");
+            });
+
             modelBuilder.Entity<Guest>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -147,6 +181,50 @@ namespace SAMT_Website.models
                 entity.Property(e => e.Street)
                     .IsRequired()
                     .HasColumnType("text");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.ImageLink).HasColumnType("text");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnType("text");
+            });
+
+            modelBuilder.Entity<Sale>(entity =>
+            {
+                entity.HasIndex(e => new { e.FkEventId, e.FkProductId }, "FK_Event_ID");
+
+                entity.HasIndex(e => e.FkProductId, "FK_Product_ID");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.FkEventId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Event_ID");
+
+                entity.Property(e => e.FkProductId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Product_ID");
+
+                entity.HasOne(d => d.FkEvent)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.FkEventId)
+                    .HasConstraintName("Sales_ibfk_2");
+
+                entity.HasOne(d => d.FkProduct)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.FkProductId)
+                    .HasConstraintName("Sales_ibfk_1");
             });
 
             OnModelCreatingPartial(modelBuilder);

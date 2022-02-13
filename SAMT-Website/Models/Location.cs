@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SAMT_Website.models
+namespace SAMT_Website.Models
 {
     public partial class Location
     {

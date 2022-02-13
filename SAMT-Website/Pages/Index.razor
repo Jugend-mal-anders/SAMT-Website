@@ -1,7 +1,7 @@
 ﻿@page "/"
 @page "/index"
 @using Microsoft.EntityFrameworkCore
-@using SAMT_Website.models
+@using SAMT_Website.Models
 
 @inject IDbContextFactory<samt_websiteContext> _DbFactory
 
@@ -16,7 +16,7 @@
             <!-- Start: 1 Row 2 Columns -->
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-6"><img class="img-fluid" src="assets/img/WinterSAMT.png?h=55bf114ce420b29d02a1a5a9df17cb68"></div>
+                    <div class="col-md-6"><img class="img-fluid" src="@samt.ImageLink"></div>
                     <div class="col-md-6">
                         <h2 style="font-weight: bold;">@samt.Name</h2>
                         <h2>@countdown</h2>

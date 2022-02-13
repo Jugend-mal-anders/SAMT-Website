@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace SAMT_Website.Models
 {
-    public partial class EventsGuest
+    public partial class Sale
     {
         public int Id { get; set; }
         public int FkEventId { get; set; }
-        public int FkGuestsId { get; set; }
+        public int FkProductId { get; set; }
+        public DateTime DateTime { get; set; }
 
         public virtual Event FkEvent { get; set; }
-        public virtual Guest FkGuests { get; set; }
+        public virtual Product FkProduct { get; set; }
     }
 }

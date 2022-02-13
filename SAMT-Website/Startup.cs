@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SAMT_Website.models;
+using SAMT_Website.Models;
 
 namespace SAMT_Website
 {
