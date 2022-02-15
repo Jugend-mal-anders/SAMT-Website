@@ -136,10 +136,17 @@
         {
             money = money.Remove(0, insert.Length);
         }
+
+        if (money.Length <= 3)
+        {
+            money = money.Insert(0, "0");
+        }
     }
 
     private void Checkout()
     {
+        if (price.Contains("Rückgeld") || price.Contains("Fehlend")) return;
+
         var context = DbContextFactory.CreateDbContext();
 
         var time = DateTime.Now;
@@ -154,14 +161,9 @@
         }
         context.SaveChanges();
 
-        Console.WriteLine(double.Parse(money));
-        Console.WriteLine(double.Parse(price));
-        Console.WriteLine(double.Parse(money) - double.Parse(price));
-        Console.WriteLine(double.Parse(price) - double.Parse(money));
-
         var numberMoney = double.Parse(money.Replace('.', ','));
         var numberPrice = double.Parse(price.Replace('.', ','));
-        var numberChange = numberMoney - numberPrice;
+        var numberChange = Math.Round(numberMoney - numberPrice, 2);
 
         price = numberMoney >= numberPrice ? $"Rückgeld: { numberChange }" : $"Fehlend: { numberChange }";
 
