@@ -1,0 +1,128 @@
+﻿@page "/main/{EventId:int}"
+@using Microsoft.EntityFrameworkCore
+@using System.Globalization
+@using Database.Models
+
+@inject IDbContextFactory<samt_websiteContext> DbContextFactory
+
+@{
+    var context = DbContextFactory.CreateDbContext();
+}
+
+<nav class="navbar navbar-dark fixed-bottom bg-success clean-navbar" style="padding-top: 0px;padding-bottom: 0px;">
+    <div class="container">
+        <button data-bs-toggle="collapse" data-bs-target="#navcol-1" class="navbar-toggler text-center text-white d-xl-flex flex-fill justify-content-xl-center align-items-xl-center" style="font-size: 24px;border-style: none;padding-top: 25px;padding-bottom: 25px;margin-right: 30px;" @onclick="() => money = _products.Sum(x => x.price).ToString(CultureInfo.CurrentCulture)"><span>@_products.Sum(x => x.price) €</span></button><button class="navbar-toggler shadow" data-bs-toggle="collapse" style="background: #146942;" data-bs-target="#navcol-2"><span>@_products.Count</span></button>
+        <div class="collapse navbar-collapse bg-white" id="navcol-1">
+                <ul class="navbar-nav">
+                    <li class="nav-item text-white" style="padding-right: 0px;">
+                        <div class="row" style="height: 100px;">
+                            <div class="col"><button class="btn btn-light" type="button" style="width: 100%;font-size: 40px;height: 100%;">@money €</button></div>
+                        </div>
+                        <div class="row" style="height: 100px;">
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;font-size: 24px;height: 100%;" @onclick="() => AddNumber(7)">7</button></div>
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(8)">8</button></div>
+                            <div class="col" style="border-right-color: var(--bs-gray);border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(9)">9</button></div>
+                        </div>
+                        <div class="row" style="height: 100px;">
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;font-size: 24px;height: 100%;" @onclick="() => AddNumber(4)">4</button></div>
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(5)">5</button></div>
+                            <div class="col" style="border-right-color: var(--bs-gray);border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(6)">6</button></div>
+                        </div>
+                        <div class="row" style="height: 100px;">
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light btn-lg" type="button" style="width: 100%;font-size: 24px;height: 100%;" @onclick="() => AddNumber(1)">1</button></div>
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light btn-lg" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(2)">2</button></div>
+                            <div class="col" style="border-right-color: var(--bs-gray);border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(3)">3</button></div>
+                        </div>
+                        <div class="row" style="height: 100px;">
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;font-size: 24px;height: 100%;" @onclick="() => AddNumber(0)">0</button></div>
+                            <div class="col" style="border-right: 1px solid var(--bs-gray) ;border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(-1)">00</button></div>
+                            <div class="col" style="border-right-color: var(--bs-gray);border-bottom: 1px solid var(--bs-gray) ;"><button class="btn btn-light" type="button" style="width: 100%;height: 100%;font-size: 24px;" @onclick="() => AddNumber(-2)">C</button></div>
+                        </div>
+                        <div class="row" style="height: 100px;">
+                            <div class="col"><button class="btn btn-light" type="button" style="width: 100%;font-size: 24px;height: 100%;"><i class="far fa-money-bill-alt" style="font-size: 60px;"></i></button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        <div class="collapse navbar-collapse bg-dark" id="navcol-2" style="padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+            <ul class="navbar-nav">
+                <li class="nav-item text-white">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-dark">
+                            <tbody>
+                            @foreach(var item in _products.GroupBy(x => x.product.Name)) {
+                                <tr>
+                                    <td><strong>@item.Count() </strong><span> @item.Key.</span></td>
+                                    <td class="text-end"><button class="btn btn-danger" type="button" style="margin-right: 10px;" @onclick="() => _products.Remove((context.Products.First(x => x.Name.Equals(item.Key)), item.First().price))"><i class="fas fa-minus" style="margin-right: 0px;"></i></button><button class="btn btn-success" type="button"><i class="fas fa-plus" style="margin-right: 0px;" @onclick="() => _products.Add((context.Products.First(x => x.Name.Equals(item.Key)), item.First().price))"></i></button></td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="page catalog-page">
+    <section class="clean-block clean-catalog dark">
+        <div class="container">
+            <div class="content">
+                <div class="row">
+                    <div class="col">
+                        <div class="products">
+                            <div class="row g-0">
+                                @foreach(var item in context.EventsProducts.Include(x => x.FkProduct).Where(x => x.FkEventId == EventId).AsEnumerable()) {
+                                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px; padding-bottom: 20px;">
+                                        <a @onclick="() => _products.Add((item.FkProduct, item.Price ?? item.FkProduct.DefaultPrice))">
+                                            <div class="clean-product-item" style="box-shadow: 5px 5px 20px; border-radius: 30px;">
+                                                <div class="image"><img class="img-fluid d-block mx-auto" src="@item.FkProduct.ImageLink" style="border-radius: 40px;"></div>
+                                                <div class="d-xl-flex justify-content-xl-center product-name"><span style="font-size: 17.8px; color: rgb(88, 88, 88);">@item.FkProduct.Name</span></div>
+                                                <div class="d-xl-flex justify-content-xl-center about">
+                                                    <div class="price">
+                                                        <h3>@(item.Price ?? item.FkProduct.DefaultPrice) €</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code {
+    [Parameter]
+    public int EventId { get; set; }
+
+    private List<(Product product, double price)> _products = new();
+
+    private string money = "0,00";
+
+    private void AddNumber(int number)
+    {
+        if (number == -2)
+        {
+            money = "0,00";
+            return;
+        }
+
+        var insert = number.ToString();
+
+        if (number == -1) insert = "00";
+
+        money = money.Replace(",", "");
+        money += insert;
+        money = money.Insert(money.Length - 2, ",");
+
+        if (money.StartsWith("0"))
+        {
+            money = money.Remove(0, insert.Length);
+        }
+    }
+}

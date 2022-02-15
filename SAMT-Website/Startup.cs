@@ -1,12 +1,12 @@
 using System;
 using System.IO;
+using Database.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SAMT_Website.Models;
 
 namespace SAMT_Website
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SAMT_Website.Models
+namespace Database.Models
 {
     public partial class Location
     {
@@ -11,11 +11,11 @@ namespace SAMT_Website.Models
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string MapsLink { get; set; }
-        public string Street { get; set; }
+        public string Name { get; set; } = null!;
+        public string MapsLink { get; set; } = null!;
+        public string Street { get; set; } = null!;
         public int Number { get; set; }
-        public string City { get; set; }
+        public string City { get; set; } = null!;
         public int Plz { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }

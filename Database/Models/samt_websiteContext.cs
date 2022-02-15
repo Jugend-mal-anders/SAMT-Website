@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace SAMT_Website.Models
+namespace Database.Models
 {
     public partial class samt_websiteContext : DbContext
     {
@@ -17,19 +16,18 @@ namespace SAMT_Website.Models
         {
         }
 
-        public virtual DbSet<Event> Events { get; set; }
-        public virtual DbSet<EventsGuest> EventsGuests { get; set; }
-        public virtual DbSet<EventsProduct> EventsProducts { get; set; }
-        public virtual DbSet<Guest> Guests { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Sale> Sales { get; set; }
+        public virtual DbSet<Event> Events { get; set; } = null!;
+        public virtual DbSet<EventsGuest> EventsGuests { get; set; } = null!;
+        public virtual DbSet<EventsProduct> EventsProducts { get; set; } = null!;
+        public virtual DbSet<Guest> Guests { get; set; } = null!;
+        public virtual DbSet<Location> Locations { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<Sale> Sales { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.5-mariadb"));
             }
         }
@@ -53,13 +51,9 @@ namespace SAMT_Website.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Location_ID");
 
-                entity.Property(e => e.ImageLink)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.ImageLink).HasColumnType("text");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
 
                 entity.HasOne(d => d.FkLocation)
                     .WithMany(p => p.Events)
@@ -143,15 +137,11 @@ namespace SAMT_Website.Models
 
                 entity.Property(e => e.Linktree).HasColumnType("text");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
 
                 entity.Property(e => e.Twitter).HasColumnType("text");
 
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Type).HasColumnType("text");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -160,17 +150,11 @@ namespace SAMT_Website.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
 
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.City).HasColumnType("text");
 
-                entity.Property(e => e.MapsLink)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.MapsLink).HasColumnType("text");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
 
                 entity.Property(e => e.Number).HasColumnType("int(11)");
 
@@ -178,9 +162,7 @@ namespace SAMT_Website.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("PLZ");
 
-                entity.Property(e => e.Street)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Street).HasColumnType("text");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -191,9 +173,7 @@ namespace SAMT_Website.Models
 
                 entity.Property(e => e.ImageLink).HasColumnType("text");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<Sale>(entity =>

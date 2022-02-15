@@ -1,7 +1,7 @@
 ﻿@page "/"
 @page "/index"
 @using Microsoft.EntityFrameworkCore
-@using SAMT_Website.Models
+@using Database.Models
 
 @inject IDbContextFactory<samt_websiteContext> _DbFactory
 
@@ -76,18 +76,18 @@
 @code
 { string countdown = string.Empty;
 
-    protected override Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         Countdown();
-        return base.OnInitializedAsync();
+        base.OnInitialized();
     }
 
-    async Task Countdown()
+    async void Countdown()
     {
         var samt = (await _DbFactory.CreateDbContextAsync()).Events.OrderByDescending(x => x.Date).First().Date;
         while (samt > DateTime.Now)
         {
-            await Task.Delay(10);
+            await Task.Delay(1000);
             countdown = samt.Subtract(DateTime.Now).ToString("dd':'hh':'mm':'ss") + " Tage";
             StateHasChanged();
         }

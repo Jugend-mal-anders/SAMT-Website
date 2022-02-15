@@ -1,0 +1,41 @@
+﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using Database.Models
+
+@inject IDbContextFactory<samt_websiteContext> DbContextFactory
+
+@{
+    var context = DbContextFactory.CreateDbContext();
+}
+
+<main class="page catalog-page">
+    <section class="clean-block clean-catalog dark">
+        <div class="container">
+            <div class="content">
+                <div class="row">
+                    <div class="col">
+                        <div class="products">
+                            <div class="row g-0">
+                                @foreach (var samt in context.Events)
+                                {
+                                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px; padding-bottom: 20px;">
+                                        <NavLink href="@($"/main/{samt.Id}")">
+                                            <div class="clean-product-item" style="box-shadow: 5px 5px 20px; border-radius: 30px;">
+                                                <div class="image"><img class="img-fluid d-block mx-auto" src="@samt.ImageLink" style="border-radius: 40px;"></div>
+                                                <div class="d-xl-flex justify-content-xl-center product-name"><span style="font-size: 17.8px; color: rgb(88, 88, 88);">@samt.Name</span></div>
+                                            </div>
+                                        </NavLink>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code {
+
+}

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SAMT_Website.Models
+namespace Database.Models
 {
     public partial class Sale
     {
@@ -10,7 +10,7 @@ namespace SAMT_Website.Models
         public int FkProductId { get; set; }
         public DateTime DateTime { get; set; }
 
-        public virtual Event FkEvent { get; set; }
-        public virtual Product FkProduct { get; set; }
+        public virtual Event FkEvent { get; set; } = null!;
+        public virtual Product FkProduct { get; set; } = null!;
     }
 }
