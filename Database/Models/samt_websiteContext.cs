@@ -16,6 +16,7 @@ namespace Database.Models
         {
         }
 
+        public virtual DbSet<Cashbox> Cashboxes { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<EventsGuest> EventsGuests { get; set; } = null!;
         public virtual DbSet<EventsProduct> EventsProducts { get; set; } = null!;
@@ -28,6 +29,7 @@ namespace Database.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.5-mariadb"));
             }
         }
@@ -36,6 +38,19 @@ namespace Database.Models
         {
             modelBuilder.UseCollation("utf8mb4_general_ci")
                 .HasCharSet("utf8mb4");
+
+            modelBuilder.Entity<Cashbox>(entity =>
+            {
+                entity.ToTable("Cashbox");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.ImageLink).HasColumnType("text");
+
+                entity.Property(e => e.Name).HasColumnType("text");
+            });
 
             modelBuilder.Entity<Event>(entity =>
             {
@@ -178,6 +193,8 @@ namespace Database.Models
 
             modelBuilder.Entity<Sale>(entity =>
             {
+                entity.HasIndex(e => e.FkCashboxId, "FK_Cashbox_ID");
+
                 entity.HasIndex(e => new { e.FkEventId, e.FkProductId }, "FK_Event_ID");
 
                 entity.HasIndex(e => e.FkProductId, "FK_Product_ID");
@@ -188,6 +205,10 @@ namespace Database.Models
 
                 entity.Property(e => e.DateTime).HasColumnType("datetime");
 
+                entity.Property(e => e.FkCashboxId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Cashbox_ID");
+
                 entity.Property(e => e.FkEventId)
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Event_ID");
@@ -195,6 +216,11 @@ namespace Database.Models
                 entity.Property(e => e.FkProductId)
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Product_ID");
+
+                entity.HasOne(d => d.FkCashbox)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.FkCashboxId)
+                    .HasConstraintName("Sales_ibfk_3");
 
                 entity.HasOne(d => d.FkEvent)
                     .WithMany(p => p.Sales)
