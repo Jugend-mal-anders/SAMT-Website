@@ -18,7 +18,7 @@
                             <div class="row g-0" style="border-style: none;">
                                 @foreach (var samt in context.Events)
                                 {
-                                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px; padding-bottom: 20px;">
+                                    <div class="col-auto m-auto" style="padding-right: 20px;padding-bottom: 20px;">
                                         <NavLink href="@($"/{samt.Id}")">
                                             <div class="clean-product-item" style="box-shadow: 5px 5px 20px;border-radius: 30px;background: var(--bs-gray-300);">
                                                 <div class="image"><img class="img-fluid d-block mx-auto" src="@samt.ImageLink" style="border-radius: 40px;"></div>

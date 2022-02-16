@@ -79,12 +79,12 @@
                             <div class="row g-0" style="border-style: none;">
                                 @foreach (var item in context.EventsProducts.Include(x => x.FkProduct).Where(x => x.FkEventId == EventId).AsEnumerable())
                                 {
-                                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px;padding-bottom: 20px;">
+                                    <div class="col-auto m-auto" style="padding-right: 20px;padding-bottom: 20px;">
                                         <a @onclick="() => { _products.Add((item.FkProduct, item.Price ?? item.FkProduct.DefaultPrice)); ReloadPrice(); }">
                                             <div class="clean-product-item" style="box-shadow: 5px 5px 20px;border-radius: 30px;background: var(--bs-gray-300);">
                                                 <div class="image"><img class="img-fluid d-block mx-auto" src="@item.FkProduct.ImageLink" style="border-radius: 40px;"></div>
                                                 <div class="d-xl-flex justify-content-xl-center product-name"><span style="font-size: 17.8px; color: rgb(88, 88, 88);">@item.FkProduct.Name</span></div>
-                                                <div class="d-xl-flex justify-content-xl-center about">
+                                                <div class="justify-content-center about">
                                                     <div class="price">
                                                         <h3>@(item.Price ?? item.FkProduct.DefaultPrice) €</h3>
                                                     </div>
@@ -123,6 +123,11 @@
 
     private void AddNumber(int number)
     {
+        if (double.Parse(money.Replace('.', ',')) == double.Parse(price.Replace('.', ',')))
+        {
+            money = "0.00";
+        }
+
         if (number == -2)
         {
             money = "0.00";
@@ -152,10 +157,16 @@
     {
         if (price.Contains("Rückgeld") || price.Contains("Fehlend")) return;
 
+        Expand();
+
+        var numberMoney = double.Parse(money.Replace('.', ','));
+        var numberPrice = double.Parse(price.Replace('.', ','));
+        var numberChange = Math.Round(numberMoney - numberPrice, 2);
+
+        price = numberMoney >= numberPrice ? $"Rückgeld: { numberChange }" : $"Fehlend: { numberChange }";
+
         var context = DbContextFactory.CreateDbContext();
-
         var time = DateTime.Now;
-
         var cashbox = context.Cashboxes.First(x => x.Id == CashboxId);
         foreach (var (product, _) in _products)
         {
@@ -169,16 +180,7 @@
             cashbox.Money += context.EventsProducts.First(x => x.FkProductId == product.Id).Price.HasValue ? context.EventsProducts.First(x => x.FkProductId == product.Id).Price!.Value : product.DefaultPrice;
         }
         context.SaveChanges();
-
-        var numberMoney = double.Parse(money.Replace('.', ','));
-        var numberPrice = double.Parse(price.Replace('.', ','));
-        var numberChange = Math.Round(numberMoney - numberPrice, 2);
-
-        price = numberMoney >= numberPrice ? $"Rückgeld: { numberChange }" : $"Fehlend: { numberChange }";
-
         _products.Clear();
-
-        Expand();
     }
 
     private void Expand()

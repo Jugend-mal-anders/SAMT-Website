@@ -18,12 +18,12 @@
                             <div class="row g-0" style="border-style: none;">
                                 @foreach (var cashbox in context.Cashboxes)
                                 {
-                                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px;padding-bottom: 20px;">
+                                    <div class="col-auto m-auto" style="padding-right: 20px;padding-bottom: 20px;">
                                         <NavLink href="@($"/main/{EventId}/{cashbox.Id}")">
                                             <div class="clean-product-item" style="box-shadow: 5px 5px 20px;border-radius: 30px;background: var(--bs-gray-300);">
                                                 <div class="image"><img class="img-fluid d-block mx-auto" src="@(string.IsNullOrWhiteSpace(cashbox.ImageLink) ? "https://www.galeria.de/dw/image/v2/karstadt/APInoauth/storage/VX-1/file/VX-3887146/0.8350725428708906/VX-3887146.jpeg?sw=1200&sh=1200&sm=fit" : cashbox.ImageLink)" style="border-radius: 40px;"></div>
                                                 <div class="d-xl-flex justify-content-xl-center product-name"><span style="font-size: 17.8px; color: rgb(88, 88, 88);">@cashbox.Name</span></div>
-                                                <div class="d-xl-flex justify-content-xl-center about">
+                                                <div class="justify-content-center about">
                                                     <div class="price">
                                                         <h3>@cashbox.Money €</h3>
                                                     </div>
