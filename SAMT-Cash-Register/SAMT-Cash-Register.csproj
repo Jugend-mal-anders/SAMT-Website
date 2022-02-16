@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>SAMT_Cash_Register</RootNamespace>
+    <RootNamespace>SAMT-Cash-Register</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
