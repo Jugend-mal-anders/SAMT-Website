@@ -8,19 +8,19 @@
     var context = DbContextFactory.CreateDbContext();
 }
 
-<main class="page catalog-page">
-    <section class="clean-block clean-catalog dark">
+<main class="page catalog-page" style="background: var(--bs-gray-400);min-height: 100%;">
+    <section class="clean-block clean-catalog dark" style="background: transparent;">
         <div class="container">
-            <div class="content">
+            <div>
                 <div class="row">
                     <div class="col">
                         <div class="products">
-                            <div class="row g-0">
+                            <div class="row g-0" style="border-style: none;">
                                 @foreach (var samt in context.Events)
                                 {
                                     <div class="col-12 col-md-6 col-lg-4 col-xl-3 m-auto" style="padding-right: 20px; padding-bottom: 20px;">
                                         <NavLink href="@($"/{samt.Id}")">
-                                            <div class="clean-product-item" style="box-shadow: 5px 5px 20px; border-radius: 30px;">
+                                            <div class="clean-product-item" style="box-shadow: 5px 5px 20px;border-radius: 30px;background: var(--bs-gray-300);">
                                                 <div class="image"><img class="img-fluid d-block mx-auto" src="@samt.ImageLink" style="border-radius: 40px;"></div>
                                                 <div class="d-xl-flex justify-content-xl-center product-name"><span style="font-size: 17.8px; color: rgb(88, 88, 88);">@samt.Name</span></div>
                                             </div>
