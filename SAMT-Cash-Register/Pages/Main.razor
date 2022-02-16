@@ -155,6 +155,8 @@
         var context = DbContextFactory.CreateDbContext();
 
         var time = DateTime.Now;
+
+        var cashbox = context.Cashboxes.First(x => x.Id == CashboxId);
         foreach (var (product, _) in _products)
         {
             context.Sales.Add(new()
@@ -164,6 +166,7 @@
                 FkProductId = product.Id,
                 FkCashboxId = CashboxId
             });
+            cashbox.Money += context.EventsProducts.First(x => x.FkProductId == product.Id).Price.HasValue ? context.EventsProducts.First(x => x.FkProductId == product.Id).Price!.Value : product.DefaultPrice;
         }
         context.SaveChanges();
 
