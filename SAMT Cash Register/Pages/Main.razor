@@ -162,6 +162,7 @@
                 DateTime = time,
                 FkEventId = EventId,
                 FkProductId = product.Id,
+                FkCashboxId = CashboxId
             });
         }
         context.SaveChanges();
@@ -173,6 +174,8 @@
         price = numberMoney >= numberPrice ? $"Rückgeld: { numberChange }" : $"Fehlend: { numberChange }";
 
         _products.Clear();
+
+        Expand();
     }
 
     private void Expand()
