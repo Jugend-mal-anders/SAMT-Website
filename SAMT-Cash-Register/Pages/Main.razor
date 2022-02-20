@@ -159,8 +159,8 @@
 
         Expand();
 
-        var numberMoney = double.Parse(money.Replace('.', ','));
-        var numberPrice = double.Parse(price.Replace('.', ','));
+        var numberMoney = double.Parse(money.Replace('.', ',').TrimEnd('0'));
+        var numberPrice = double.Parse(price.Replace('.', ',').TrimEnd('0'));
         var numberChange = Math.Round(numberMoney - numberPrice, 2);
 
         price = numberMoney >= numberPrice ? $"Rückgeld: { numberChange }" : $"Fehlend: { numberChange }";
