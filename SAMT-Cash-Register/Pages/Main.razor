@@ -178,7 +178,8 @@
                 DateTime = time,
                 FkEventId = EventId,
                 FkProductId = product.Id,
-                FkCashboxId = CashboxId
+                FkCashboxId = CashboxId,
+                FkSalesLocationId = SalesLocationId,
             });
             cashbox.Money += context.EventsProducts.First(x => x.FkProductId == product.Id).Price.HasValue ? context.EventsProducts.First(x => x.FkProductId == product.Id).Price!.Value : product.DefaultPrice;
         }
