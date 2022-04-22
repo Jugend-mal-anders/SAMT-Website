@@ -24,13 +24,14 @@ namespace Database.Models
         public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Sale> Sales { get; set; } = null!;
+        public virtual DbSet<SalesLocation> SalesLocations { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.5-mariadb"));
+                optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.7-mariadb"));
             }
         }
 
@@ -231,6 +232,19 @@ namespace Database.Models
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.FkProductId)
                     .HasConstraintName("Sales_ibfk_1");
+            });
+
+            modelBuilder.Entity<SalesLocation>(entity =>
+            {
+                entity.ToTable("SalesLocation");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.ImageLink).HasColumnType("text");
+
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             OnModelCreatingPartial(modelBuilder);
