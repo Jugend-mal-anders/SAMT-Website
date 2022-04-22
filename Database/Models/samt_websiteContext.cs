@@ -116,6 +116,8 @@ namespace Database.Models
 
                 entity.HasIndex(e => e.FkProductId, "FK_Product_ID");
 
+                entity.HasIndex(e => e.FkSalesLocationId, "FK_SalesLocation_ID");
+
                 entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
@@ -128,6 +130,10 @@ namespace Database.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Product_ID");
 
+                entity.Property(e => e.FkSalesLocationId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_SalesLocation_ID");
+
                 entity.HasOne(d => d.FkEvent)
                     .WithMany(p => p.EventsProducts)
                     .HasForeignKey(d => d.FkEventId)
@@ -137,6 +143,11 @@ namespace Database.Models
                     .WithMany(p => p.EventsProducts)
                     .HasForeignKey(d => d.FkProductId)
                     .HasConstraintName("Events_Products_ibfk_2");
+
+                entity.HasOne(d => d.FkSalesLocation)
+                    .WithMany(p => p.EventsProducts)
+                    .HasForeignKey(d => d.FkSalesLocationId)
+                    .HasConstraintName("Events_Products_ibfk_3");
             });
 
             modelBuilder.Entity<Guest>(entity =>
@@ -200,6 +211,8 @@ namespace Database.Models
 
                 entity.HasIndex(e => e.FkProductId, "FK_Product_ID");
 
+                entity.HasIndex(e => e.FkSalesLocationId, "FK_SalesLocation_ID");
+
                 entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
@@ -218,6 +231,10 @@ namespace Database.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("FK_Product_ID");
 
+                entity.Property(e => e.FkSalesLocationId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_SalesLocation_ID");
+
                 entity.HasOne(d => d.FkCashbox)
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.FkCashboxId)
@@ -232,6 +249,11 @@ namespace Database.Models
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.FkProductId)
                     .HasConstraintName("Sales_ibfk_1");
+
+                entity.HasOne(d => d.FkSalesLocation)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.FkSalesLocationId)
+                    .HasConstraintName("Sales_ibfk_4");
             });
 
             modelBuilder.Entity<SalesLocation>(entity =>
