@@ -43,6 +43,6 @@ jobs:
           dotnet publish -c Release
         
       - name: Deploy with rsync
-        run: rsync -avz -e 'ssh -p 4556 -o StrictHostKeyChecking=no' SAMT-Cash-Register/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-cr/
+        run: rsync -avz -e 'ssh -p 4556 -o StrictHostKeyChecking=no' SAMT-Cash-Register/Server/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-cr/
       - name: Restart SAMT Cash Register
         run: ssh -p 4556 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'service samt-cr restart'
