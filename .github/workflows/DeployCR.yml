@@ -38,6 +38,7 @@ jobs:
       - name: Build
         run: |
           cd SAMT-Cash-Register
+          cd Server
           dotnet build --configuration Release
           dotnet publish -c Release
         
