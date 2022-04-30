@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Cash-Register.Client",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Cash-Register.Shared", "SAMT-Cash-Register\Shared\SAMT-Cash-Register.Shared.csproj", "{BE80ECBA-61E1-475C-968B-22017B7A7C9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Admin-Panel", "SAMT-Admin-Panel\SAMT-Admin-Panel.csproj", "{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{BE80ECBA-61E1-475C-968B-22017B7A7C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE80ECBA-61E1-475C-968B-22017B7A7C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE80ECBA-61E1-475C-968B-22017B7A7C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
