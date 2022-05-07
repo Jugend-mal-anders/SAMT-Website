@@ -1,9 +1,23 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using Database.Models
+
+@inject IDbContextFactory<samt_websiteContext> DbContextFactory
+
+@{
+    var context = DbContextFactory.CreateDbContext();
+}
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+@foreach (var samt in context.Events.Where(x => x.Date < DateTime.Now).OrderByDescending(x => x.Date))
+{
+    var innerContext = DbContextFactory.CreateDbContext();
+    <h1>@samt.Name @samt.Date.ToShortDateString()</h1>
+    <p>Besucher: @innerContext.Sales.Count(x => x.FkEvent.Equals(samt) && (x.FkProductId == 12 || x.FkProductId == 11))</p>
+    <p>Davon Festivalbänder: @innerContext.Sales.Count(x => x.FkEvent.Equals(samt) && x.FkProductId == 11)</p>
+    <ApexChart TItem="Sale" Title="Besucher Uhrzeit">
+        <ApexPointSeries TItem="Sale" Items="innerContext.Sales.Where(x => x.FkEvent.Equals(samt) && x.FkProductId == 12)" Name="Besucher" SeriesType="SeriesType.Area" XValue="@(sale => sale.DateTime.Hour)" YAggregate="@(sales => sales.Count())"></ApexPointSeries>
+        <ApexPointSeries TItem="Sale" Items="innerContext.Sales.Where(x => x.FkEvent.Equals(samt) && x.FkProductId == 11)" Name="Festivalbänder" SeriesType="SeriesType.Area" XValue="@(sale => sale.DateTime.Hour)" YAggregate="@(sales => sales.Count())"></ApexPointSeries>
+    </ApexChart>
+}
