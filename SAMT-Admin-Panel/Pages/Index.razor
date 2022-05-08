@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using Microsoft.EntityFrameworkCore
 @using Database.Models
+@using Microsoft.AspNetCore.Components
+@using WebUI.Utils
 
 @inject IDbContextFactory<samt_websiteContext> DbContextFactory
 
@@ -10,7 +12,180 @@
 
 <PageTitle>Index</PageTitle>
 
-@foreach (var samt in context.Events.Where(x => x.Date < DateTime.Now).OrderByDescending(x => x.Date))
+<!-- Start: Navbar Right Links (Dark) -->
+<nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><img class="img-fluid" src="assets/img/samt_krone_PNG.png?h=fc9dabeffe8c0cc3477e8ab02293766e" width="50" style="margin-right: 5px;"><span>SAMT-Admin-Panel</span></a>
+        <span style="color: rgb(255,255,255);margin-left: 255px;font-size: 20px;"><img class="img-fluid" src="@selectedEvent.ImageLink" width="100px" style="margin-right: 5px;margin-bottom: 15px;">@selectedEvent.Name</span><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-5">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <div class="nav-item dropdown border rounded" style="padding: 8px;"><a class="dropdown-toggle active" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgb(155,157,158);">Events</a>
+                        <div class="dropdown-menu dropdown-menu-dark">
+                            @foreach(var samt in context.Events.Where(x => x.Date < DateTime.Now).OrderByDescending(x => x.Date))
+                            {
+                                <a class="dropdown-item" @onclick="() => selectedEvent = samt">@samt.Name</a>
+                            }                                
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav><!-- End: Navbar Right Links (Dark) -->
+
+<div style="background: var(--bs-gray-500);">
+    <!-- Start: Stats Color -->
+    <div class="container py-4 py-xl-5">
+        <div class="text-center text-white-50 bg-dark border rounded border-0 p-3">
+            <div class="row">
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">@context.Sales.Count(x => x.FkEvent.Equals(selectedEvent) && (x.FkProductId == 12 || x.FkProductId == 11))</h4>
+                        <p class="mb-0">Besucher</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">@context.Sales.Count(x => x.FkEvent.Equals(selectedEvent) && x.FkProductId == 11)</h4>
+                        <p class="mb-0">Davon Festivalbänder</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">@Math.Round(context.Sales.Include(x => x.FkProduct).Where(x => x.FkEvent.Equals(selectedEvent)).Sum(x => x.FkProduct.DefaultPrice), 2) €</h4>
+                        <p class="mb-0">Gesamter Umsatz</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">@Math.Round(context.Sales.Include(x => x.FkProduct).Where(x => x.FkEvent.Equals(selectedEvent) && x.FkSalesLocationId == 2).Sum(x => x.FkProduct.DefaultPrice), 2) €</h4>
+                        <p class="mb-0">Davon Eingang</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">@Math.Round(context.Sales.Include(x => x.FkProduct).Where(x => x.FkEvent.Equals(selectedEvent) && x.FkSalesLocationId == 1).Sum(x => x.FkProduct.DefaultPrice), 2) €</h4>
+                        <p class="mb-0">Davon Theke</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- End: Stats Color -->
+    
+    @*<div class="text-white bg-secondary border rounded border-0 p-4 p-lg-5 py-4 py-xl-5">*@
+        @foreach (var (chart, value) in chartControl.OrderBy(x => x.Key))
+        {
+            <Drawer Closable="true" Width="720" Visible="value.First" Placement="right" Title='("Configure chart #" + chart)' OnClose="() => { chartControl[chart].First = !chartControl[chart].First; StateHasChanged(); value.Fourth.RenderAsync(); StateHasChanged();}">
+                <div class="table table-striped">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <Select DataSource="@(Enum.GetValues(typeof(SeriesType)).Cast<SeriesType>().ToList())"
+                                        @bind-Value="value.Third"
+                                        Placeholder="Select a value"
+                                        DefaultActiveFirstItem="true"
+                                        EnableSearch>
+
+                                </Select>
+                            </th>
+                            <th><button class="btn border rounded border-success shadow" type="button" @onclick="() => value.Second.Add(new())"><i class="fas fa-plus"></i></button></th>
+                        </tr>
+                        </thead>
+                        @foreach (var line in value.Second)
+                        {
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Product: </strong>
+                                    <Select DataSource="@context.Products"
+                                            @bind-Value="line.First"
+                                            LabelName="@nameof(Product.Name)"
+                                            ValueName="@nameof(Product.Id)"
+                                            Placeholder="Select a value"
+                                            DefaultActiveFirstItem="true"
+                                            EnableSearch>
+                                    </Select>
+                                </td>
+                                @*<td>
+                                <strong>Y: </strong>
+                                <Select DataSource="@selectHeader"
+                                        @bind-Value="line.Second"
+                                        LabelName="@nameof(Product.Name).ToLower().FirstCharToUpper()"
+                                        ValueName="@nameof(Product.Id)"
+                                        Placeholder="Select a value"
+                                        DefaultActiveFirstItem="true"
+                                        EnableSearch>
+                                </Select>
+                            </td>*@
+                                <td>
+                                    @if (value.Second.Count > 1)
+                                    {
+                                        <button class="btn border rounded border-danger shadow" type="button" @onclick="() => value.Second.Remove(line)" style="margin-right: 10px;"><i class="fas fa-minus"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </Drawer>
+            <div class="row">
+                <div class="col">
+                    <!-- Start: Default Card -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col">
+                                    <h6 class="m-0"><strong>Chart #@chart</strong></h6>
+                                </div>
+                                <div class="col text-right">
+                                    @*<button class="btn border rounded border-success shadow" type="button" @onclick="() => chartControl.Add(new(chart.First+1, new()), new(false, new(){ new()}, new(), new(), new List<ITrace>()))" style="margin-right: 10px;"><i class="fas fa-plus"></i></button>*@
+                                    <button class="btn border rounded border-success shadow" type="button" @onclick="() => chartControl.Add(chart + 1, new(false, new() { new() }, SeriesType.Line, new(), new()))" style="margin-right: 10px;"><i class="fas fa-plus"></i></button>
+                                    @if (chartControl.Count > 1)
+                                    {
+                                        <button class="btn border rounded border-danger shadow" type="button" @onclick="() => chartControl.Remove(chart)" style="margin-right: 10px;"><i class="fas fa-minus"></i></button>
+                                    }
+                                    <button class="btn border rounded border-primary shadow" type="button" @onclick="() => chartControl[chart].First = !chartControl[chart].First"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @*@if (value.Second[0].Second != null)
+                            {
+                                <div class="col text-center align-self-center"><span>@(value.Second[0].Second == -1 ? "Passes" : Calc.Passes.First().Passvalues.FirstOrDefault(x => x.FkPassheaderId == value.Second[0].Second)?.FkPassheader.Name.ToLower().FirstCharToUpper())</span></div>
+                            }*@
+                                <div class="col-xl-11">
+                                    <ApexChart @ref="value.Fourth"
+                                               TItem="Sale"
+                                               Options="value.Fifth">
+                                        @foreach (var line in value.Second.Where(x => x.First != null))
+                                        {
+                                            <ApexPointSeries TItem="Sale"
+                                                             Items="@context.Sales.Where(x => x.FkEvent.Equals(selectedEvent) && x.FkProductId == line.First)"
+                                                             Name="@context.Products.First(x => x.Id == line.First).Name"
+                                                             SeriesType="value.Third"
+                                                             XValue="sale => sale.DateTime.ToShortTimeString()"
+                                                             YAggregate="sales => sales.Count()"/>
+                                        }
+                                    </ApexChart>
+                                    @if (value.Second[0].First != null)
+                                    {
+                                        <p class="text-center">Zeit</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End: Default Card -->
+                </div>
+            </div>
+        }
+    @*</div>*@
+</div>
+
+@*@foreach (var samt in context.Events.Where(x => x.Date < DateTime.Now).OrderByDescending(x => x.Date))
 {
     var innerContext = DbContextFactory.CreateDbContext();
     <h1>@samt.Name @samt.Date.ToShortDateString()</h1>
@@ -20,4 +195,30 @@
         <ApexPointSeries TItem="Sale" Items="innerContext.Sales.Where(x => x.FkEvent.Equals(samt) && x.FkProductId == 12)" Name="Besucher" SeriesType="SeriesType.Area" XValue="@(sale => sale.DateTime.Hour)" YAggregate="@(sales => sales.Count())"></ApexPointSeries>
         <ApexPointSeries TItem="Sale" Items="innerContext.Sales.Where(x => x.FkEvent.Equals(samt) && x.FkProductId == 11)" Name="Festivalbänder" SeriesType="SeriesType.Area" XValue="@(sale => sale.DateTime.Hour)" YAggregate="@(sales => sales.Count())"></ApexPointSeries>
     </ApexChart>
+}*@
+
+@code
+{
+    Event selectedEvent;
+
+    private Dictionary<int, Quintuple<bool, List<Pair<int?, int?>>, SeriesType, ApexChart<Sale>, ApexChartOptions<Sale>>> chartControl = new()
+    {
+        {
+
+            1,
+
+            new(false, new()
+            {
+                new(3 , 11)
+            }, SeriesType.Line, new(), new())
+        },
+    };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        var context = DbContextFactory.CreateDbContext();
+        selectedEvent = context.Events.Where(x => x.Date < DateTime.Now).OrderByDescending(x => x.Date).First();
+    }
 }

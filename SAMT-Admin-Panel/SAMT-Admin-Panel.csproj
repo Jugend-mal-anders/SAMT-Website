@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AntDesign" Version="0.10.5" />
 		<PackageReference Include="Blazor-ApexCharts" Version="0.9.7-beta" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
