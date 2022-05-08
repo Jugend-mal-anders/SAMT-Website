@@ -167,7 +167,7 @@
                                                              Items="@context.Sales.Where(x => x.FkEvent.Equals(selectedEvent) && x.FkProductId == line.First)"
                                                              Name="@context.Products.First(x => x.Id == line.First).Name"
                                                              SeriesType="value.Third"
-                                                             XValue="sale => sale.DateTime.ToShortTimeString()"
+                                                             XValue="@(sale => sale.DateTime.ToString("hh:mm"))"
                                                              YAggregate="sales => sales.Count()"/>
                                         }
                                     </ApexChart>
