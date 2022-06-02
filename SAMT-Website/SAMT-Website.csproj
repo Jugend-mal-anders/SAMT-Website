@@ -25,8 +25,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.10.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+    <PackageReference Include="AntDesign" Version="0.10.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

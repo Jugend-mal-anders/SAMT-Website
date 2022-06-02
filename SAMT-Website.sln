@@ -14,13 +14,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Cash-Register-old", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{98A4E1E9-AD53-434C-BE0E-779527D6F8A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Cash-Register.Server", "SAMT-Cash-Register\Server\SAMT-Cash-Register.Server.csproj", "{0FDA233A-3489-439F-88C4-B963899BBFAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Cash-Register.Server", "SAMT-Cash-Register\Server\SAMT-Cash-Register.Server.csproj", "{0FDA233A-3489-439F-88C4-B963899BBFAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Cash-Register.Client", "SAMT-Cash-Register\Client\SAMT-Cash-Register.Client.csproj", "{8349B880-3B54-4DE5-B4C5-7F03FA24457D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Cash-Register.Client", "SAMT-Cash-Register\Client\SAMT-Cash-Register.Client.csproj", "{8349B880-3B54-4DE5-B4C5-7F03FA24457D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Cash-Register.Shared", "SAMT-Cash-Register\Shared\SAMT-Cash-Register.Shared.csproj", "{BE80ECBA-61E1-475C-968B-22017B7A7C9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Cash-Register.Shared", "SAMT-Cash-Register\Shared\SAMT-Cash-Register.Shared.csproj", "{BE80ECBA-61E1-475C-968B-22017B7A7C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMT-Admin-Panel", "SAMT-Admin-Panel\SAMT-Admin-Panel.csproj", "{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAMT-Admin-Panel", "SAMT-Admin-Panel\SAMT-Admin-Panel.csproj", "{4966F0C4-A7FB-4F89-8FDC-F0FFBE74E189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
