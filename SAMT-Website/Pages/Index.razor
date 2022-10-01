@@ -21,7 +21,7 @@
             <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
                 <div class="text-center">
                     <p class="fw-bold text-success mb-2">Siegener Anime und Manga Treff</p>
-                    <p class="mb-4" style="font-size: 1.6rem;">@samt.Name am&nbsp;<span class="text-success"><strong>@samt.Date.ToString(_culture.DateTimeFormat.LongDatePattern)</strong></span>, @samt.FkLocation.Name</p>
+                    <p class="mb-4" style="font-size: 1.6rem;">@samt.Name am&nbsp;<span class="text-success"><strong>@samt.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern)</strong></span>, @samt.FkLocation.Name</p>
                     @if (!_days.Equals("00") || !_hours.Equals("00") || !_minutes.Equals("00") || !_seconds.Equals("00"))
                     {
                         <div class="row">
@@ -289,8 +289,6 @@
 </section><!-- End: Contact Details -->
 @code
 {
-    readonly CultureInfo _culture = new("de-DE", true);
-
     string _days = string.Empty;
     string _hours = string.Empty;
     string _minutes = string.Empty;
@@ -299,8 +297,6 @@
     protected override void OnInitialized()
     {
         Countdown();
-        CultureInfo.CurrentCulture = _culture;
-        CultureInfo.CurrentUICulture = _culture;
         base.OnInitialized();
     }
 
