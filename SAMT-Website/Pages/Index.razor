@@ -22,7 +22,7 @@
                 <div class="text-center">
                     <p class="fw-bold text-success mb-2">Siegener Anime und Manga Treff</p>
                     <p class="mb-4" style="font-size: 1.6rem;">@samt.Name am&nbsp;<span class="text-success"><strong>@samt.Date.ToString(_culture.DateTimeFormat.LongDatePattern)</strong></span>, @samt.FkLocation.Name</p>
-                    @if (!_days.Equals("00") && !_hours.Equals("00") && !_minutes.Equals("00") && !_seconds.Equals("00"))
+                    @if (!_days.Equals("00") || !_hours.Equals("00") || !_minutes.Equals("00") || !_seconds.Equals("00"))
                     {
                         <div class="row">
                             <div class="col">
@@ -289,7 +289,7 @@
 </section><!-- End: Contact Details -->
 @code
 {
-    CultureInfo _culture = new("de-DE");
+    readonly CultureInfo _culture = new("de-DE");
 
     string _days = string.Empty;
     string _hours = string.Empty;
