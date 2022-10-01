@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><span>Tage</span></div>
+                                    <div class="col"><span>@(_days.Equals("01") ? "Tag" : "Tage")</span></div>
                                 </div>
                             </div>
                             <div class="col">
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><span>Stunden</span></div>
+                                    <div class="col"><span>@(_hours.Equals("01") ? "Stunde" : "Stunden")</span></div>
                                 </div>
                             </div>
                             <div class="col">
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><span>Minuten</span></div>
+                                    <div class="col"><span>@(_minutes.Equals("01") ? "Minute" : "Minuten")</span></div>
                                 </div>
                             </div>
                             <div class="col">
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><span>Sekunden</span></div>
+                                    <div class="col"><span>@(_seconds.Equals("01") ? "Sekunde" : "Sekunden")</span></div>
                                 </div>
                             </div>
                         </div>
