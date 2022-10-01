@@ -26,6 +26,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseRequestLocalization("de-DE");
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
