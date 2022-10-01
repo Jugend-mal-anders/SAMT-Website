@@ -1,8 +1,14 @@
+using Database.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+var serverVersion = new MariaDbServerVersion(new Version(10, 6, 7));
+builder.Services.AddDbContextFactory<samt_websiteContext>(options =>
+    options.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", serverVersion));
 
 var app = builder.Build();
 
