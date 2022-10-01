@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SAMT_Website</RootNamespace>
+    <Resources>
+      <Resource Language="de" />
+    </Resources>
   </PropertyGroup>
 
   <ItemGroup>
