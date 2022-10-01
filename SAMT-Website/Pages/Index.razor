@@ -299,6 +299,8 @@
     protected override void OnInitialized()
     {
         Countdown();
+        CultureInfo.CurrentCulture = _culture;
+        CultureInfo.CurrentUICulture = _culture;
         base.OnInitialized();
     }
 
