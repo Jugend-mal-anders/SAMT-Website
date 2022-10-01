@@ -1,0 +1,72 @@
+﻿@page "/whenwhere"
+@page "/when"
+@page "/where"
+
+@using Database.Models
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<samt_websiteContext> DbFactory
+
+@{
+    var context = DbFactory.CreateDbContext();
+    var samt = context.Events.OrderByDescending(x => x.Date).Include(x => x.FkLocation).First();
+}
+
+<PageTitle>Wann & Wo</PageTitle>
+
+<header class="bg-dark">
+    <!-- Start: Hero Clean Reverse -->
+    <div class="container py-5">
+        <div class="row py-5">
+            <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-end mb-4">
+                <div style="max-width: 450px;min-width: 422px;">
+                    <p class="fw-bold text-success mb-2">Wann?</p>
+                    <h2 class="fw-bold">@samt.Date.ToString("dd.MM.yyyy")</h2>
+                    <p class="my-3"><strong>Öffnungszeiten</strong><br>11:30 Uhr - 21:00 Uhr</p>
+                    <p class="fw-bold text-success mb-2">Wo?</p>
+                    <h2 class="fw-bold">@samt.FkLocation.Name</h2>
+                    <p class="my-3">@samt.FkLocation.Street @samt.FkLocation.Number, @samt.FkLocation.Plz @samt.FkLocation.City</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="p-5 mx-lg-5" style="background: url(&quot;assets/img/blob.svg&quot;) center / contain no-repeat;"><iframe src="@samt.FkLocation.MapsLink" class="rounded img-fluid shadow w-100 fit-cover" style="border:0;min-height: 300px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+            </div>
+        </div>
+    </div><!-- End: Hero Clean Reverse -->
+</header><!-- Start: Features -->
+<section>
+    <!-- Start: Features Cards -->
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <p class="fw-bold text-success mb-2">Anfahrt</p>
+                <h2 class="fw-bold"><strong>Wie du am besten zu uns kommst</strong></h2>
+                <p class="text-muted w-lg-50">Ob mit dem Zug, Auto oder Fahrrad, so findest du zu uns:</p>
+            </div>
+        </div>
+        <div class="mx-auto" style="max-width: 900px;">
+            <div class="row row-cols-1 row-cols-md-2 d-flex justify-content-center">
+                <div class="col mb-4">
+                    <div class="card bg-primary-light">
+                        <div class="card-body text-center px-4 py-5 px-md-5">
+                            <i class="material-icons" style="font-size: 50px;">train</i>
+                            <p class="fw-bold text-primary card-text mb-2">Mit dem Zug</p>
+                            <h5 class="fw-bold card-title mb-3">Umweltfreundlich und keine Parkplatzsuche mit dem Zug</h5>
+                            <p class="text-muted card-text mb-4">Fahr mit dem Zug bis <strong>Siegen HBF</strong>.<br><br>Vom Bahnhof sind es noch ca. 8 Minuten (650 Meter) zu Fuß bis zur <strong>BlueBox Siegen</strong>.<br></p><a class="btn btn-primary btn-sm" role="button" href="assets/img/Wegbeschreibung_Bahnhof_BlueBox.jpeg" target="_blank">Karte Fußweg</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card bg-secondary-light">
+                        <div class="card-body text-center px-4 py-5 px-md-5">
+                            <i class="icon ion-android-car" style="font-size: 50px;padding-bottom: 0px;"></i>
+                            <p class="fw-bold text-secondary card-text mb-2">Mit dem Auto</p>
+                            <h5 class="fw-bold card-title mb-3">Schnell und bequem, jedoch leider mit Parkkosten</h5>
+                            <p class="text-muted card-text mb-4">In Siegen gibt es viele Parkmöglichkeiten, die meisten kosten jedoch leider etwas Geld.<br><br><strong>Parken direkt an der BlueBox-Siegen ist aufgrund sehr weniger Parkplätze dem Team, den Austellern und Besuchern mit Handicap vorbehalten!</strong></p><button class="btn btn-secondary btn-sm" type="button">Kommt noch...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- End: Features Cards -->
+</section><!-- End: Features -->

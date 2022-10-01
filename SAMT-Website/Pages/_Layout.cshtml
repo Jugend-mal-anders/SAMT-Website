@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace SAMT_Website.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="~/" />
+
+    <meta charset="utf-8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1BT88WSJ2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-J1BT88WSJ2');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5XTMSQK');</script>
+    <!-- End Google Tag Manager -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5062491525616153"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - SAMT</title>
+    <meta name="twitter:title" content="SAMT - Siegener Anime und Manga Treff">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Das Siegener Anime und Manga Treff (kurz SAMT) ist die erste Anime und Manga Convention in Siegen.">
+    <meta property="og:image" content="assets/img/Logos/samt-logo-2-chibi%20edit%203.png">
+    <meta name="twitter:image" content="assets/img/Logos/samt-logo-2-chibi%20edit%203.png">
+    <link rel="icon" type="image/png" sizes="301x303" href="assets/img/Logos/Krone.png">
+    <link rel="icon" type="image/png" sizes="301x303" href="assets/img/Logos/Krone.png">
+    <link rel="icon" type="image/png" sizes="301x303" href="assets/img/Logos/Krone.png">
+    <link rel="icon" type="image/png" sizes="301x303" href="assets/img/Logos/Krone.png">
+    <link rel="icon" type="image/png" sizes="301x303" href="assets/img/Logos/Krone.png">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css"/>
+    <link href="css/site.css" rel="stylesheet"/>
+    <link href="SAMT-Website.styles.css" rel="stylesheet"/>
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered"/>
+</head>
+<body>
+    @RenderBody()
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+<script src="_framework/blazor.server.js"></script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/smart-forms.min.js"></script>
+<script src="assets/js/bold-and-dark.js"></script>
+</body>
+</html>
