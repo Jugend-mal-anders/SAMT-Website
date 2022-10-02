@@ -21,7 +21,7 @@
             <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
                 <div class="text-center">
                     <p class="fw-bold text-success mb-2">Siegener Anime und Manga Treff</p>
-                    <p class="mb-4" style="font-size: 1.6rem;">@samt.Name am&nbsp;<span class="text-success"><strong>@samt.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern)</strong></span>, @samt.FkLocation.Name</p>
+                    <p class="mb-4" style="font-size: 1.6rem;">@samt.Name <br><span class="text-success"><strong>@samt.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern)</strong></span><br> @samt.FkLocation.Name</p>
                     @if (!_days.Equals("00") || !_hours.Equals("00") || !_minutes.Equals("00") || !_seconds.Equals("00"))
                     {
                         <div class="row">
