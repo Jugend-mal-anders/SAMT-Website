@@ -6,6 +6,7 @@
 @using System.Globalization
 
 @inject IDbContextFactory<samt_websiteContext> DbFactory
+@inject IJSRuntime js
 
 @{
     var context = DbFactory.CreateDbContext();
@@ -289,6 +290,7 @@
         </div>
     </div>
 </section><!-- End: Contact Details -->
+
 @code
 {
     string _days = string.Empty;
@@ -317,3 +319,4 @@
         }
     }
 }
+

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,18 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\assets\bootstrap\js\bootstrap.min.js" />
-    <None Include="wwwroot\assets\fonts\ionicons.svg" />
-    <None Include="wwwroot\assets\fonts\MaterialIcons-Regular.svg" />
-    <None Include="wwwroot\assets\fonts\MaterialIcons-Regular.woff2" />
-    <None Include="wwwroot\assets\img\blob.svg" />
-    <None Include="wwwroot\assets\js\bold-and-dark.js" />
-    <None Include="wwwroot\assets\js\jquery.min.js" />
-    <None Include="wwwroot\assets\js\smart-forms.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
