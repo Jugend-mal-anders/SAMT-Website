@@ -301,7 +301,16 @@
     protected override void OnInitialized()
     {
         Countdown();
+        Test();
         base.OnInitialized();
+    }
+
+    async void Test()
+    {
+        while (true)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     async void Countdown()
