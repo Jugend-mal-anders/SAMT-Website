@@ -18,6 +18,7 @@ namespace Database.Models
 
         public virtual DbSet<Cashbox> Cashboxes { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
+        public virtual DbSet<EventsBringAndBuy> EventsBringAndBuys { get; set; } = null!;
         public virtual DbSet<EventsGuest> EventsGuests { get; set; } = null!;
         public virtual DbSet<EventsProduct> EventsProducts { get; set; } = null!;
         public virtual DbSet<Guest> Guests { get; set; } = null!;
@@ -75,6 +76,28 @@ namespace Database.Models
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.FkLocationId)
                     .HasConstraintName("Events_ibfk_1");
+            });
+
+            modelBuilder.Entity<EventsBringAndBuy>(entity =>
+            {
+                entity.ToTable("Events_BringAndBuy");
+
+                entity.HasIndex(e => e.FkEventId, "FK_Event_ID");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.FkEventId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("FK_Event_ID");
+
+                entity.Property(e => e.Number).HasColumnType("int(11)");
+
+                entity.HasOne(d => d.FkEvent)
+                    .WithMany(p => p.EventsBringAndBuys)
+                    .HasForeignKey(d => d.FkEventId)
+                    .HasConstraintName("Events_BringAndBuy_ibfk_1");
             });
 
             modelBuilder.Entity<EventsGuest>(entity =>
@@ -155,6 +178,10 @@ namespace Database.Models
                 entity.Property(e => e.Id)
                     .HasColumnType("int(11)")
                     .HasColumnName("ID");
+
+                entity.Property(e => e.EMail)
+                    .HasColumnType("text")
+                    .HasColumnName("E-Mail");
 
                 entity.Property(e => e.Etsy).HasColumnType("text");
 

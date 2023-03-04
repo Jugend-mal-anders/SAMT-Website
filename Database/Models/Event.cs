@@ -7,6 +7,7 @@ namespace Database.Models
     {
         public Event()
         {
+            EventsBringAndBuys = new HashSet<EventsBringAndBuy>();
             EventsGuests = new HashSet<EventsGuest>();
             EventsProducts = new HashSet<EventsProduct>();
             Sales = new HashSet<Sale>();
@@ -19,6 +20,7 @@ namespace Database.Models
         public int FkLocationId { get; set; }
 
         public virtual Location FkLocation { get; set; } = null!;
+        public virtual ICollection<EventsBringAndBuy> EventsBringAndBuys { get; set; }
         public virtual ICollection<EventsGuest> EventsGuests { get; set; }
         public virtual ICollection<EventsProduct> EventsProducts { get; set; }
         public virtual ICollection<Sale> Sales { get; set; }

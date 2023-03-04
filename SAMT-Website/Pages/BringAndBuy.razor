@@ -1,0 +1,85 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using Database.Models
+@inject ILocalStorageService localStorage
+@inject IDbContextFactory<samt_websiteContext> DbFactory
+
+<!-- Start: Bring and Buy Info -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <p class="fw-bold text-success mb-2">Bring &amp; Buy</p><!-- Start: Einleitung -->
+                <section>
+                    <h2 class="fw-bold">Anleitung</h2>
+                    <p>Wie auf jedem SAMT findet auch dieses Mal wieder ein Bring &amp; Buy statt.<br><br>Einige kennen das Formular schon, andere machen es zum ersten Mal, deshalb hier für alle noch einmal eine Schritt-für-Schritt-Anleitung, wie du deine Objekte vorbereiten kannst!<br><br>Um bei uns deine Gegenstände verkaufen zu können muss jeder Gegenstand mit einer einzigartigen Nummer und dem Preis beschriftet werden.<br><br>Sollte irgendwas unklar sein kannst du gerne auf <a href="https://www.instagram.com/samt_siegen/" target="_blank">Instagram</a>, im <a href="https://discord.gg/QHC3UE9" target="_blank">Discord</a> oder über das <a href="https://samt-con.de/contact">Kontaktformular</a> nachfragen.</p>
+                </section><!-- End: Einleitung -->
+                <hr><!-- Start: Schritt 1 -->
+                <section>
+                    <h4 class="fw-bold">Schritt 1 - Nummer</h4>
+                    <p>Bevor du mit dem Beschriften deiner Gegenstände beginnen kannst, brauchst du eine eindeutige Nummer:</p><button class="btn btn-primary" type="button" disabled="@generateButtonDisabled" @onclick="GetNumber">Generiere Nummer</button>
+                    <p style="margin-top: 16px;">Deine Nummer lautet:</p>
+                    <h4 class="fw-bold">@number</h4>
+                </section><!-- End: Schritt 1 -->
+                <hr>
+
+                <!-- Start: Schritt 2 -->
+                <section>
+                    <h4 class="fw-bold">Schritt 2 - Formular</h4>
+                    <p>Drucke unser Bring &amp; Buy Formular aus.</p><a class="btn btn-success" role="button" href="https://drive.google.com/file/d/1M_5YSOuVh_YXIUwC32DRV2rC9OwihVAl/view?usp=sharing" target="_blank" rel="alternate">Drucken</a>
+                    <p style="margin-top: 16px;">Wenn du keine Möglichkeit hast, das Formular auszudrucken, kannst du es auch direkt bei uns ausfüllen.<br><br>Bitte gib auf dem Formular deinen Namen und eine Kontaktmöglichkeit (E-Mail oder Handynummer) an. Dies ist notwendig, damit wir überprüfen können, dass du es bist und wir dich für eventuelle Rückfragen erreichen können.<br><br>Dann liste alle deine Gegenstände auf, z.B. "Sword Art Online, Art: Manga, Preis: 2€". Die letzte Spalte "A/V" wird von uns ausgefüllt, also einfach leer lassen :)</p>
+                </section>
+
+                <!-- End: Schritt 2 -->
+                <hr>
+
+                <!-- Start: Schritt 3 -->
+                <section>
+                    <h4 class="fw-bold">Schritt 3 - Beschriften</h4>
+                    <p style="margin-top: 16px;">Der letzte Schritt besteht darin, deine Gegenstände zu beschriften.<br><br>Verwende dazu deine eindeutige Nummer UND die entsprechende Nummerierung aus der Liste im Formular und den Preis.&nbsp;<br><br>Zum Beispiel ein Post-it mit:</p><button class="btn btn-danger" type="button" style="border-width: 1px;border-radius: 4px;box-shadow: 0px 5px 8px rgb(0,0,0);padding-top: 4.6px;padding-bottom: 4.6px;padding-right: 24px;padding-left: 24px;"><span style="font-size: 20px;">@number - 1<br>2 €</span></button>
+                    <p style="margin-top: 16px;">oder</p><button class="btn btn-warning" type="button" style="border-width: 1px;border-radius: 4px;box-shadow: 0px 5px 8px rgb(0,0,0);padding-top: 4.6px;padding-bottom: 4.6px;padding-right: 24px;padding-left: 24px;"><span style="font-size: 20px;">@number - 7<br>13 €</span></button>
+                    <p style="margin-top: 16px;">Wenn du das mit allen Gegenständen gemacht hast, bist du fertig!<br>Vergiss nicht, alles mitzubringen und dann kann es losgehen :)<br><br><strong>Vielen Dank, dass du alles vorbereitet hast! </strong><br>Das erleichtert uns die Arbeit um ein vielfaches.</p>
+                </section>
+
+                <!-- End: Schritt 3 -->
+            </div>
+        </div>
+    </div>
+</section><!-- End: Bring and Buy Info -->
+@code
+{
+    samt_websiteContext context;
+
+    string currentEventId = "-1";
+
+    bool generateButtonDisabled;
+    string number = "X";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        context = await DbFactory.CreateDbContextAsync();
+
+        currentEventId = context.Events.OrderByDescending(x => x.Date).First().Id.ToString();
+
+        if (await localStorage.ContainKeyAsync(currentEventId))
+        {
+            generateButtonDisabled = true;
+            number = await localStorage.GetItemAsStringAsync(currentEventId);
+        }
+    }
+
+    private async void GetNumber()
+    {
+        number = !context.EventsBringAndBuys.Any() ? "1" : context.EventsBringAndBuys.Last(x => x.FkEventId == Convert.ToInt32(currentEventId)).Number + 1.ToString();
+        generateButtonDisabled = true;
+        StateHasChanged();
+
+        context.EventsBringAndBuys.Attach(new()
+        {
+            FkEventId = Convert.ToInt32(currentEventId),
+            Number = Convert.ToInt32(number),
+        });
+        await context.SaveChangesAsync();
+
+        await localStorage.SetItemAsync(currentEventId, number);
+    }
+}

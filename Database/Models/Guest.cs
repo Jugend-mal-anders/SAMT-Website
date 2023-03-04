@@ -18,6 +18,7 @@ namespace Database.Models
         public string? Twitter { get; set; }
         public string? Etsy { get; set; }
         public string? Linktree { get; set; }
+        public string? EMail { get; set; }
 
         public virtual ICollection<EventsGuest> EventsGuests { get; set; }
     }
