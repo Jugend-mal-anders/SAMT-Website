@@ -67,6 +67,7 @@
         {
             generateButtonDisabled = true;
             number = await localStorage.GetItemAsStringAsync(currentEventId);
+            StateHasChanged();
         }
     }
 
