@@ -20,8 +20,11 @@
                 <section>
                     <h4 class="fw-bold">Schritt 1 - Nummer</h4>
                     <p>Bevor du mit dem Beschriften deiner Gegenstände beginnen kannst, brauchst du eine eindeutige Nummer:</p><button class="btn btn-primary" type="button" disabled="@generateButtonDisabled" @onclick="GetNumber">Generiere Nummer</button>
-                    <p style="margin-top: 16px;">Deine Nummer lautet:</p>
-                    <h4 class="fw-bold">@number</h4>
+                    @if (generateButtonDisabled)
+                    {
+                        <p style="margin-top: 16px;">Deine Nummer lautet:</p>
+                        <h4 class="fw-bold">@number</h4>
+                    }
                 </section><!-- End: Schritt 1 -->
                 <hr>
 
@@ -78,10 +81,10 @@
         StateHasChanged();
 
         context.EventsBringAndBuys.Attach(new()
-        {
-            FkEventId = Convert.ToInt32(currentEventId),
-            Number = Convert.ToInt32(number),
-        });
+            {
+                FkEventId = Convert.ToInt32(currentEventId),
+                Number = Convert.ToInt32(number),
+            });
         await context.SaveChangesAsync();
 
         await localStorage.SetItemAsync(currentEventId, number);
