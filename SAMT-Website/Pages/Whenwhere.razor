@@ -13,7 +13,7 @@
 
 @{
     var context = DbFactory.CreateDbContext();
-    var samt = context.Events.OrderByDescending(x => x.Date).Include(x => x.FkLocation).First();
+    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).First();
 }
 
 <PageTitle>Wann & Wo</PageTitle>

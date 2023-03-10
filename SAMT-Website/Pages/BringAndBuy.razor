@@ -64,7 +64,7 @@
     {
         context = await DbFactory.CreateDbContextAsync();
 
-        currentEventId = context.Events.OrderByDescending(x => x.Date).First().Id.ToString();
+        currentEventId = context.Events.OrderBy(x => x.Date).First().Id.ToString();
 
         if (await localStorage.ContainKeyAsync(currentEventId))
         {
