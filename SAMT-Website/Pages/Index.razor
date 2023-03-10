@@ -10,7 +10,7 @@
 
 @{
     var context = DbFactory.CreateDbContext();
-    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).First();
+    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).SkipWhile(x => x.Date <= DateTime.Now).First();
 }
 
 <PageTitle>SAMT - Siegener Anime und Manga Treff</PageTitle>
@@ -306,7 +306,7 @@
 
     async void Countdown()
     {
-        var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).First().Date;
+        var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).SkipWhile(x => x.Date <= DateTime.Now).First().Date;
         while (samt > DateTime.Now)
         {
             await Task.Delay(1000);
