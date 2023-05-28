@@ -304,19 +304,37 @@
         base.OnInitialized();
     }
 
+    /**
+     * This method performs a countdown to a specific event. The dates are obtained from an Event Entity that is managed
+     * through EntityFrameworkCore.
+     *
+     * The countdown will continuously update the UI until the event date arrives. The countdown is triggered when
+     * this component is initialized.
+     */
     async void Countdown()
     {
+        // Obtain an instance of the DbContext through the DbFactory
         var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).ToList().SkipWhile(x => x.Date <= DateTime.Now).First().Date;
+
+        // The countdown will continue to loop until the event date is reached
         while (samt > DateTime.Now)
         {
+            // Wait a second before updating the countdown
             await Task.Delay(1000);
+
+            // Calculate the countdown time remaining
             var countdown = samt.Subtract(DateTime.Now);
+
+            // Update the properties representing the countdown values
             _days = countdown.Days.ToString("D2");
             _hours = countdown.Hours.ToString("D2");
             _minutes = countdown.Minutes.ToString("D2");
             _seconds = countdown.Seconds.ToString("D2");
+
+            // Trigger a state change to update the UI with the new countdown values
             StateHasChanged();
         }
     }
+
 }
 
