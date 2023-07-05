@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.14">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.19">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
