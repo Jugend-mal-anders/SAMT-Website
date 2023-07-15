@@ -78,7 +78,7 @@
 
     private async void GetNumber()
     {
-        number = !context.EventsBringAndBuys.Any() ? "1" : (context.EventsBringAndBuys.Where(x => x.FkEventId == Convert.ToInt32(currentEventId)).OrderByDescending(x => x.Number).First().Number + 1).ToString();
+        number = context.EventsBringAndBuys.Any(x => x.FkEventId == Convert.ToInt32(currentEventId)) ? (context.EventsBringAndBuys.Where(x => x.FkEventId == Convert.ToInt32(currentEventId)).OrderByDescending(x => x.Number).First().Number + 1).ToString() : "1";
         generateButtonDisabled = true;
         StateHasChanged();
 
