@@ -10,7 +10,7 @@
 
 @{
     var context = DbFactory.CreateDbContext();
-    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).First();
+    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
 }
 
 <PageTitle>SAMT - Siegener Anime und Manga Treff</PageTitle>
@@ -21,52 +21,60 @@
         <div class="row pt-5">
             <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto" style="margin-top: -48px;">
                 <div class="text-center">
-                    <img class="img-fluid" src="@samt.ImageLink" width="300" alt="SAMT Logo">
-                    <p class="mb-4" style="font-size: 1.6rem;">@samt.Name <br><span class="text-success"><strong>@samt.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern)</strong></span><br> @samt.FkLocation.Name</p>
-                    @if (!_days.Equals("00") || !_hours.Equals("00") || !_minutes.Equals("00") || !_seconds.Equals("00"))
+                    @if (samt == null || samt == default)
                     {
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <h3 class="fw-bold">@_days</h3>
+                        <img class="img-fluid" src="https://i.imgur.com/D9jeMkR.png" width="300" alt="SAMT Logo">
+                        <p class="mb-4" style="font-size: 1.6rem;">Coming soon... <br><span class="text-success"><strong>QwQ</strong></span><br> UwU</p>
+                    }
+                    else
+                    {
+                        <img class="img-fluid" src="@samt.ImageLink" width="300" alt="SAMT Logo">
+                        <p class="mb-4" style="font-size: 1.6rem;">@samt.Name <br><span class="text-success"><strong>@samt.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern)</strong></span><br> @samt.FkLocation.Name</p>
+                        @if (!_days.Equals("00") || !_hours.Equals("00") || !_minutes.Equals("00") || !_seconds.Equals("00"))
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="fw-bold">@_days</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span>@(_days.Equals("01") ? "Tag" : "Tage")</span></div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><span>@(_days.Equals("01") ? "Tag" : "Tage")</span></div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <h3 class="fw-bold">@_hours</h3>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="fw-bold">@_hours</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span>@(_hours.Equals("01") ? "Stunde" : "Stunden")</span></div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><span>@(_hours.Equals("01") ? "Stunde" : "Stunden")</span></div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <h3 class="fw-bold">@_minutes</h3>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="fw-bold">@_minutes</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span>@(_minutes.Equals("01") ? "Minute" : "Minuten")</span></div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><span>@(_minutes.Equals("01") ? "Minute" : "Minuten")</span></div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <h3 class="fw-bold">@_seconds</h3>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="fw-bold">@_seconds</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span>@(_seconds.Equals("01") ? "Sekunde" : "Sekunden")</span></div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><span>@(_seconds.Equals("01") ? "Sekunde" : "Sekunden")</span></div>
-                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>
@@ -291,7 +299,6 @@
         </div>
     </div>
 </section><!-- End: Contact Details -->
-
 @code
 {
     string _days = string.Empty;
@@ -315,16 +322,16 @@
     async void Countdown()
     {
         // Obtain an instance of the DbContext through the DbFactory
-        var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).ToList().SkipWhile(x => x.Date <= DateTime.Now).First().Date;
+        var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
 
         // The countdown will continue to loop until the event date is reached
-        while (samt > DateTime.Now)
+        while (samt != null && samt != default && samt.Date > DateTime.Now)
         {
             // Wait a second before updating the countdown
             await Task.Delay(1000);
 
             // Calculate the countdown time remaining
-            var countdown = samt.Subtract(DateTime.Now);
+            var countdown = samt.Date.Subtract(DateTime.Now);
 
             // Update the properties representing the countdown values
             _days = countdown.Days.ToString("D2");
