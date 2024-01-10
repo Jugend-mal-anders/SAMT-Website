@@ -25,7 +25,7 @@
             <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-end mb-4">
                 <div style="max-width: 450px;min-width: 422px;">
                     <p class="fw-bold text-success mb-2">Wann?</p>
-                    @if (samt == null || samt == default)
+                    @if (samt is null)
                     {
                         <h2 class="fw-bold">Kündigen wir bald an :3</h2>
                     }
@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-5 mx-lg-5" style="background: url(&quot;assets/img/blob.svg&quot;) center / contain no-repeat;">
-                    @if (samt != null && samt != default)
+                    @if (samt is not null)
                     {
                         <iframe src="@samt.FkLocation.MapsLink" class="rounded img-fluid shadow w-100 fit-cover" style="border:0;min-height: 300px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     }
