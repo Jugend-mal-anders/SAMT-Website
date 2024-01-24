@@ -325,7 +325,7 @@
         var samt = (await DbFactory.CreateDbContextAsync()).Events.OrderBy(x => x.Date).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
 
         // The countdown will continue to loop until the event date is reached
-        while (samt != null && samt != default && samt.Date > DateTime.Now)
+        while (samt is not null && samt.Date > DateTime.Now)
         {
             // Wait a second before updating the countdown
             await Task.Delay(1000);
