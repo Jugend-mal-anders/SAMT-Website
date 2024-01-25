@@ -13,9 +13,13 @@
     <None Include="wwwroot\assets\fonts\MaterialIcons-Regular.svg" />
     <None Include="wwwroot\assets\fonts\MaterialIcons-Regular.woff2" />
     <None Include="wwwroot\assets\img\blob.svg" />
+    <None Include="wwwroot\assets\img\brands\HaSi_logo_variant_thick.svg" />
+    <None Include="wwwroot\assets\img\brands\HeySiegen.svg" />
     <None Include="wwwroot\assets\js\bold-and-dark.js" />
     <None Include="wwwroot\assets\js\bs-init.js" />
     <None Include="wwwroot\assets\js\jquery.min.js" />
+    <None Include="wwwroot\assets\js\Simple-Slider-swiper-bundle.min.js" />
+    <None Include="wwwroot\assets\js\Simple-Slider.js" />
     <None Include="wwwroot\assets\js\smart-forms.min.js" />
   </ItemGroup>
 
