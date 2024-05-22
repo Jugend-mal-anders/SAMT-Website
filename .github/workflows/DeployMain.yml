@@ -34,7 +34,7 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore SAMT-Website/SAMT-Website.csproj
       - name: Build
         run: |
           cd SAMT-Website
