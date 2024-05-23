@@ -32,9 +32,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore SAMT-Website/SAMT-Website.csproj
       - name: Build
         run: |
           cd SAMT-Website
@@ -42,6 +42,6 @@ jobs:
           dotnet publish -c Release
         
       - name: Deploy with rsync
-        run: rsync -avz -e 'ssh -p 4556 -o StrictHostKeyChecking=no' SAMT-Website/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-con/
+        run: rsync -avz -e 'ssh -p 4556 -o StrictHostKeyChecking=no' SAMT-Website/bin/Release/net8.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/samt-con/
       - name: Restart SAMT Website
         run: ssh -p 4556 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'service samt-con restart'
