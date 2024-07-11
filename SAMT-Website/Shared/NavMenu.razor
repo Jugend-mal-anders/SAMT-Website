@@ -3,12 +3,6 @@
 @using Microsoft.EntityFrameworkCore
 @inject IDbContextFactory<SamtWebsiteContext> DbFactory
 
-@{
-    var context = DbFactory.CreateDbContext();
-    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
-    var currentDate = DateOnly.FromDateTime(DateTime.Now);
-}
-
 <!-- Start: Navbar Centered Links -->
 <nav class="navbar navbar-dark navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
     <div class="container-fluid">
@@ -26,11 +20,11 @@
                 @* </li> *@
                 <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="anfahrt">Wann & Wo?</NavLink></li>
                 <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="tickets">Tickets & Preise</NavLink></li>
-                @if (samt.BringAndBuy.Value)
+                @if (_samt.BringAndBuy.Value)
                 {
                     <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="bnb">Bring & Buy</NavLink></li>
                 }
-                @if (samt is { ApplyOpen: not null, ApplyClose: not null } && currentDate >= samt.ApplyOpen.Value && currentDate <= samt.ApplyClose.Value)
+                @if (_samt is { ApplyOpen: not null, ApplyClose: not null } && _currentDate >= _samt.ApplyOpen.Value && _currentDate <= _samt.ApplyClose.Value)
                 {
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown">Bewerbungen</a>
@@ -54,3 +48,10 @@
         </div>
     </div>
 </nav><!-- End: Navbar Centered Links -->
+@code
+{
+    [CascadingParameter]
+    public Event? _samt { get; set; }
+
+    DateOnly _currentDate = DateOnly.FromDateTime(DateTime.Now);
+}

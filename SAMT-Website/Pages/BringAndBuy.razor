@@ -62,11 +62,14 @@
     bool generateButtonDisabled;
     string number = "X";
 
+    [CascadingParameter]
+    public Event? _samt { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         context = await DbFactory.CreateDbContextAsync();
 
-        currentEventId = context.Events.OrderBy(x => x.Date).ToList().SkipWhile(x => x.Date <= DateTime.Now).First().Id.ToString();
+        currentEventId = _samt.Id.ToString();
 
         if (await localStorage.ContainKeyAsync(currentEventId))
         {

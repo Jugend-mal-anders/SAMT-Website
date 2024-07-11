@@ -7,14 +7,6 @@
 @page "/anfahrt"
 
 @using Database.Models
-@using Microsoft.EntityFrameworkCore
-
-@inject IDbContextFactory<SamtWebsiteContext> DbFactory
-
-@{
-    var context = DbFactory.CreateDbContext();
-    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
-}
 
 <PageTitle>Wann & Wo</PageTitle>
 
@@ -25,25 +17,28 @@
             <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-end mb-4">
                 <div style="max-width: 450px;min-width: 422px;">
                     <p class="fw-bold text-success mb-2">Wann?</p>
-                    @if (samt is null)
+                    @if (_samt is null)
                     {
                         <h2 class="fw-bold">Kündigen wir bald an :3</h2>
                     }
                     else
                     {
-                        <h2 class="fw-bold">@samt.Date.ToString("dd.MM.yyyy")</h2>
-                        <p class="my-3"><strong>Öffnungszeiten</strong><br>11:30 Uhr - 21:00 Uhr</p>
+                        @foreach (var time in _samt.EventsDateTimes.OrderBy(x => x.Date))
+                        {
+                            <h2 class="fw-bold">@time.Date.ToString("dd.MM.yyyy")</h2>
+                            <p class="my-3"><strong>Öffnungszeiten</strong><br>@time.StartTime.ToString() Uhr - @time.EndTime.ToString() Uhr</p>
+                        }
                         <p class="fw-bold text-success mb-2">Wo?</p>
-                        <h2 class="fw-bold">@samt.FkLocation.Name</h2>
-                        <p class="my-3">@samt.FkLocation.Street @samt.FkLocation.Number, @samt.FkLocation.Plz @samt.FkLocation.City</p>
+                        <h2 class="fw-bold">@_samt.FkLocation.Name</h2>
+                        <p class="my-3">@_samt.FkLocation.Street @_samt.FkLocation.Number, @_samt.FkLocation.Plz @_samt.FkLocation.City</p>
                     }
                 </div>
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-5 mx-lg-5" style="background: url(&quot;assets/img/blob.svg&quot;) center / contain no-repeat;">
-                    @if (samt is not null)
+                    @if (_samt is not null)
                     {
-                        <iframe src="@samt.FkLocation.MapsLink" class="rounded img-fluid shadow w-100 fit-cover" style="border:0;min-height: 300px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="@_samt.FkLocation.MapsLink" class="rounded img-fluid shadow w-100 fit-cover" style="border:0;min-height: 300px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     }
                 </div>
             </div>
@@ -75,9 +70,9 @@
                                 <li>Frankfurt: RE 99/IC</li>
                                 <li>Erndtebrück: Bus R27/RB 93/ RB 94</li>
                             </ul>
-                            @if (samt is not null)
+                            @if (_samt is not null)
                             {
-                                <p class="text-muted card-text mb-4">Vom Bahnhof sind es noch ca. 8 Minuten (650 Meter) zu Fuß bis zur <strong>@samt.FkLocation.Name</strong>.</p>
+                                <p class="text-muted card-text mb-4">Vom Bahnhof sind es noch ca. 8 Minuten (650 Meter) zu Fuß bis zur <strong>@_samt.FkLocation.Name</strong>.</p>
                                 <a class="btn btn-primary btn-sm" role="button" href="assets/img/Wegbeschreibung_Bahnhof_BlueBox.jpeg" target="_blank">Karte Fußweg</a>
                             }
                         </div>
@@ -110,3 +105,8 @@
         </div>
     </div>
 </section><!-- End: Barrierefreiheit -->
+@code
+{
+    [CascadingParameter]
+    public Event? _samt { get; set; }
+}

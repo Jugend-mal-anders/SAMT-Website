@@ -9,8 +9,6 @@ public partial class Event
 
     public string Name { get; set; } = null!;
 
-    public DateTime Date { get; set; }
-
     public string ImageLink { get; set; } = null!;
 
     public int FkLocationId { get; set; }
@@ -24,6 +22,8 @@ public partial class Event
     public float Price { get; set; }
 
     public virtual ICollection<EventsBringAndBuy> EventsBringAndBuys { get; set; } = new List<EventsBringAndBuy>();
+
+    public virtual ICollection<EventsDateTime> EventsDateTimes { get; set; } = new List<EventsDateTime>();
 
     public virtual ICollection<EventsExhibitorsApply> EventsExhibitorsApplies { get; set; } = new List<EventsExhibitorsApply>();
 

@@ -34,6 +34,8 @@ public partial class SamtWebsiteContext : DbContext
 
     public virtual DbSet<EventsBringAndBuy> EventsBringAndBuys { get; set; }
 
+    public virtual DbSet<EventsDateTime> EventsDateTimes { get; set; }
+
     public virtual DbSet<EventsExhibitorsApply> EventsExhibitorsApplies { get; set; }
 
     public virtual DbSet<EventsShowactApply> EventsShowactApplies { get; set; }
@@ -50,7 +52,7 @@ public partial class SamtWebsiteContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=landofrails.net;port=3306;user=samt;password=an1C_k/J/aw8yu2o;database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.18-mariadb"));
+        => optionsBuilder.UseMySql($"server=landofrails.net;port=3306;user=samt;password={File.ReadAllText("sensitive-data")};database=samt_website", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.18-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -162,7 +164,6 @@ public partial class SamtWebsiteContext : DbContext
             entity.Property(e => e.BringAndBuy)
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
-            entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.FkLocationId)
                 .HasColumnType("int(11)")
                 .HasColumnName("FK_Location_ID");
@@ -194,6 +195,28 @@ public partial class SamtWebsiteContext : DbContext
             entity.HasOne(d => d.FkEvent).WithMany(p => p.EventsBringAndBuys)
                 .HasForeignKey(d => d.FkEventId)
                 .HasConstraintName("Events_BringAndBuy_ibfk_1");
+        });
+
+        modelBuilder.Entity<EventsDateTime>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Events_DateTime");
+
+            entity.HasIndex(e => e.FkEventId, "FK_Event_ID");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("ID");
+            entity.Property(e => e.EndTime).HasColumnType("time");
+            entity.Property(e => e.FkEventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("FK_Event_ID");
+            entity.Property(e => e.StartTime).HasColumnType("time");
+
+            entity.HasOne(d => d.FkEvent).WithMany(p => p.EventsDateTimes)
+                .HasForeignKey(d => d.FkEventId)
+                .HasConstraintName("Events_DateTime_ibfk_1");
         });
 
         modelBuilder.Entity<EventsExhibitorsApply>(entity =>

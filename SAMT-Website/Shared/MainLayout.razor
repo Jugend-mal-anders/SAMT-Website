@@ -1,7 +1,30 @@
-﻿@inherits LayoutComponentBase
+﻿@using Database.Models
+@using Microsoft.EntityFrameworkCore
+@inherits LayoutComponentBase
 
-<NavMenu />
+@inject IDbContextFactory<SamtWebsiteContext> DbFactory
 
-@Body
+<CascadingValue Value="Samt">
+    <CascadingValue Value="StartDate">
+        <NavMenu />
+        @Body
+    </CascadingValue>
+</CascadingValue>
 
 <Footer />
+
+@code
+{
+    EventsDateTime? StartDate;
+    Event? Samt;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var context = DbFactory.CreateDbContext();
+
+        StartDate = context.EventsDateTimes.OrderBy(x => x.Date).Include(x => x.FkEvent).ThenInclude(x => x.FkLocation).ToList().SkipWhile(x => x.Date.ToDateTime(x.StartTime) <= DateTime.Now).FirstOrDefault();
+        Samt = StartDate?.FkEvent;
+    }
+}
