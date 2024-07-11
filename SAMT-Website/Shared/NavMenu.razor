@@ -1,4 +1,15 @@
-﻿<!-- Start: Navbar Centered Links -->
+﻿@using System.Runtime.InteropServices.JavaScript
+@using Database.Models
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<SamtWebsiteContext> DbFactory
+
+@{
+    var context = DbFactory.CreateDbContext();
+    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
+    var currentDate = DateOnly.FromDateTime(DateTime.Now);
+}
+
+<!-- Start: Navbar Centered Links -->
 <nav class="navbar navbar-dark navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
     <div class="container-fluid">
         <NavLink Match="NavLinkMatch.All" class="navbar-brand d-flex flex-column align-items-center" href="/"><span class="bs-icon-lg d-flex justify-content-center align-items-center me-2 bs-icon" style="color: rgb(255,255,255);"><img class="img-fluid" src="assets/img/Logos/Krone.png">&nbsp;SAMT</span><small style="padding-top: 5px;">Siegener Anime und Manga Treffen</small></NavLink><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -15,15 +26,21 @@
                 @* </li> *@
                 <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="anfahrt">Wann & Wo?</NavLink></li>
                 <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="tickets">Tickets & Preise</NavLink></li>
-                <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="bnb">Bring & Buy</NavLink></li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown">Bewerbungen</a>
-                    <div class="dropdown-menu" data-bs-popper="none">
-                        <NavLink class="dropdown-item" href="https://forms.gle/nkE2K5jw47kdfPBz9" target="_blank" rel="external">Aussteller-Bewerbung</NavLink>
-                        <NavLink class="dropdown-item" href="https://forms.gle/zYVAviMFmkGipVXe8" target="_blank" rel="external">Workshop-Bewerbung</NavLink>
-                        <NavLink class="dropdown-item" href="https://forms.gle/nF1AB59G1Uggmsyj9" target="_blank" rel="external">Showact-Bewerbung</NavLink>
-                    </div>
-                </li>
+                @if (samt.BringAndBuy.Value)
+                {
+                    <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="bnb">Bring & Buy</NavLink></li>
+                }
+                @if (samt is { ApplyOpen: not null, ApplyClose: not null } && currentDate >= samt.ApplyOpen.Value && currentDate <= samt.ApplyClose.Value)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown">Bewerbungen</a>
+                        <div class="dropdown-menu" data-bs-popper="none">
+                            <NavLink class="dropdown-item" href="https://forms.gle/nkE2K5jw47kdfPBz9" target="_blank" rel="external">Aussteller-Bewerbung</NavLink>
+                            <NavLink class="dropdown-item" href="https://forms.gle/zYVAviMFmkGipVXe8" target="_blank" rel="external">Workshop-Bewerbung</NavLink>
+                            <NavLink class="dropdown-item" href="https://forms.gle/nF1AB59G1Uggmsyj9" target="_blank" rel="external">Showact-Bewerbung</NavLink>
+                        </div>
+                    </li>
+                }
                 <li class="nav-item"><NavLink ActiveClass="active" class="nav-link" href="kontakt">Kontakt</NavLink></li>
             </ul><a class="btn btn-primary shadow" role="button" href="https://discord.gg/QHC3UE9" target="_blank" rel="external" style="margin-right: 15px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-discord" style="font-size: 25px;margin-top: -3px;margin-right: 3px;">

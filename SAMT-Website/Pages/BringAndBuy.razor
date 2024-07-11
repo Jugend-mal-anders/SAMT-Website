@@ -4,7 +4,7 @@
 @using Microsoft.EntityFrameworkCore
 @using Database.Models
 @inject ILocalStorageService localStorage
-@inject IDbContextFactory<samt_websiteContext> DbFactory
+@inject IDbContextFactory<SamtWebsiteContext> DbFactory
 
 <PageTitle>Bring & Buy Infos</PageTitle>
 
@@ -55,7 +55,7 @@
 </section><!-- End: Bring and Buy Info -->
 @code
 {
-    samt_websiteContext context;
+    SamtWebsiteContext context;
 
     string currentEventId = "-1";
 

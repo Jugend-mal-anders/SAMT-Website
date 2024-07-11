@@ -2,6 +2,15 @@
 @page "/tickets"
 @page "/ticket"
 @page "/preise"
+@using Database.Models
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<SamtWebsiteContext> DbFactory
+
+@{
+    var context = DbFactory.CreateDbContext();
+    var samt = context.Events.OrderBy(x => x.Date).Include(x => x.FkLocation).ToList().SkipWhile(x => x.Date <= DateTime.Now).FirstOrDefault();
+}
 
 <PageTitle>Preise</PageTitle>
 
@@ -22,7 +31,7 @@
                             <div>
                                 <h3 class="fw-bold mb-0">Normaler Eintritt</h3>
                                 <p>Für jeden</p>
-                                <h4 class="display-4 fw-bold">2 €</h4>
+                                <h4 class="display-4 fw-bold">@samt!.Price €</h4>
                             </div>
                         </div>
                         <div>

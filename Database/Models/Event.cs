@@ -1,28 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Database.Models
+namespace Database.Models;
+
+public partial class Event
 {
-    public partial class Event
-    {
-        public Event()
-        {
-            EventsBringAndBuys = new HashSet<EventsBringAndBuy>();
-            EventsGuests = new HashSet<EventsGuest>();
-            EventsProducts = new HashSet<EventsProduct>();
-            Sales = new HashSet<Sale>();
-        }
+    public int Id { get; set; }
 
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
-        public DateTime Date { get; set; }
-        public string ImageLink { get; set; } = null!;
-        public int FkLocationId { get; set; }
+    public string Name { get; set; } = null!;
 
-        public virtual Location FkLocation { get; set; } = null!;
-        public virtual ICollection<EventsBringAndBuy> EventsBringAndBuys { get; set; }
-        public virtual ICollection<EventsGuest> EventsGuests { get; set; }
-        public virtual ICollection<EventsProduct> EventsProducts { get; set; }
-        public virtual ICollection<Sale> Sales { get; set; }
-    }
+    public DateTime Date { get; set; }
+
+    public string ImageLink { get; set; } = null!;
+
+    public int FkLocationId { get; set; }
+
+    public DateOnly? ApplyOpen { get; set; }
+
+    public DateOnly? ApplyClose { get; set; }
+
+    public bool? BringAndBuy { get; set; }
+
+    public float Price { get; set; }
+
+    public virtual ICollection<EventsBringAndBuy> EventsBringAndBuys { get; set; } = new List<EventsBringAndBuy>();
+
+    public virtual ICollection<EventsExhibitorsApply> EventsExhibitorsApplies { get; set; } = new List<EventsExhibitorsApply>();
+
+    public virtual ICollection<EventsShowactApply> EventsShowactApplies { get; set; } = new List<EventsShowactApply>();
+
+    public virtual ICollection<EventsWorkshopsApply> EventsWorkshopsApplies { get; set; } = new List<EventsWorkshopsApply>();
+
+    public virtual Location FkLocation { get; set; } = null!;
 }
